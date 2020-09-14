@@ -37,8 +37,8 @@ app.get("/deed/:id", async(req, res)=>{
 app.post("/deed", async (req,res)=>{
     try{
       
-      const {title, description } = req.body;
-      const newDeed = await pool.query("INSERT INTO deeds (title, description) VALUES ($1,$2) returning *", [title,description]);
+      const {title, description, category, location } = req.body;
+      const newDeed = await pool.query("INSERT INTO deeds (title, description, category, location) VALUES ($1,$2,$3,$4) returning *", [title,description,category,location]);
       res.json(newDeed.rows[0]);
     } catch (err) {
         console.error(err.message);

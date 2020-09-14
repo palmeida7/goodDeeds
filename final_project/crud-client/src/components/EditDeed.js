@@ -4,7 +4,7 @@ const EditDeed = ({deed}) =>{
     //console.log(deed);
     const editDeed = async (id)=>{
         try {
-            const body = { title, description };
+            const body = { title, description, category, location };
 
             const response = await fetch(`http://localhost:3440/deed/${id}`,{
                 method: "PUT",
@@ -21,6 +21,8 @@ const EditDeed = ({deed}) =>{
 
     const [title, setTitle] = useState(deed.title);
     const [description, setDescription] = useState(deed.description);
+    const [category, setCategory] = useState(deed.category);
+    const [location, setLocation] = useState(deed.location);
     return <Fragment>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target={`#id${deed.deeds_id}`}>
       Edit Deed
@@ -39,6 +41,8 @@ const EditDeed = ({deed}) =>{
             <form>
                 <input type="text" className="form control" value={title} onChange={e => setTitle(e.target.value)}></input>
                 <input type="text" className="form control" value={description} onChange={e => setDescription(e.target.value)}></input>
+                <input type="text" className="form control" value={category} onChange={e => setCategory(e.target.value)}></input>
+                <input type="text" className="form control" value={location} onChange={e => setLocation(e.target.value)}></input>
             </form>
           </div>
           <div class="modal-footer">

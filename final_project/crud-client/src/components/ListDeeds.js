@@ -37,6 +37,8 @@ const ListDeeds = ({deeds, setDeeds}) => {
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Category</th>
+                    <th>Location</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -46,6 +48,8 @@ const ListDeeds = ({deeds, setDeeds}) => {
                     <tr key={deed.deeds_id}>
                         <td>{deed.title}</td>
                         <td>{deed.description}</td>
+                        <td>{deed.category}</td>
+                        <td>{deed.location}</td>
                         <td><EditDeed deed={deed}></EditDeed></td>
                         <td><button className="btn btn-danger" onClick={()=>deleteDeed (deed.deeds_id)}>Delete</button></td>
                     </tr>
