@@ -39,9 +39,16 @@ const EditDeed = ({deed}) =>{
     
           <div class="modal-body">
             <form>
+                <div>              
+                  <select type="text" className="form control" value={category} onChange={e => setCategory(e.target.value)}>
+                    <option>BLM</option>
+                    <option>Seniors</option>
+                    <option>LGBTQ</option>
+                  </select>
+                </div>
+
                 <input type="text" className="form control" value={title} onChange={e => setTitle(e.target.value)}></input>
                 <input type="text" className="form control" value={description} onChange={e => setDescription(e.target.value)}></input>
-                <input type="text" className="form control" value={category} onChange={e => setCategory(e.target.value)}></input>
                 <input type="text" className="form control" value={location} onChange={e => setLocation(e.target.value)}></input>
             </form>
           </div>

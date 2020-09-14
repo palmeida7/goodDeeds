@@ -33,9 +33,16 @@ const InputDeed = ({onDeedAdded}) =>{
             <h1 className="text-center my-5">Input Deeds</h1>
             <form className="d-flex" onSubmit={onSubmitForm}>
                 <div>
+                    <div>
+                    <label>Choose a Category</label>              
+                    <select type="text" className="form control" value={category} onChange={e => setCategory(e.target.value)}>
+                        <option>BLM</option>
+                        <option>Seniors</option>
+                        <option>LGBTQ</option>
+                    </select>
+                    </div>
                     <input type="text" placeholder="add title - 25 chars" className="form-control" value={title} onChange={e=>setTitle(e.target.value)}></input>
                     <input type="text" placeholder="add description" className="form-control" value={description} onChange={e=>setDescription(e.target.value)}></input>
-                    <input type="text" placeholder="add category" className="form-control" value={category} onChange={e=>setCategory(e.target.value)}></input>
                     <input type="text" placeholder="add location" className="form-control" value={location} onChange={e=>setLocation(e.target.value)}></input>
                     <button className="btn btn-success">Add</button>
                 </div>
