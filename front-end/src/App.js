@@ -3,11 +3,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
+import './Main.scss'
+
 //added switch
 // import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 // import { Container } from "react-bootstrap";
 
-
+import Navbar from "./components/Navbar";
 import Join from "./components/Join/Join";
 import Chat from "./components/Chat/Chat";
 //for auth0
@@ -26,7 +28,6 @@ import Chat from "./components/Chat/Chat";
 //           <Route path="/" exact component={Home} />
 //           <Route path="/profile" component={Profile} />
 //           <Route path="/welcomepage" component={WelcomePage} />
-          
 //           <Route path="/chat" component={Chat} />
 
 //         </Switch>
@@ -76,9 +77,13 @@ const App = () => {
       <Route path="/created_list" exact component={CreatedList} />
       <Route path="/create_deed" exact component={CreateDeed} />
       <Route path="/edit_deed" exact component={EditDeed} /> */}
-      <div>
-        <Link to={"/explore"}> Go to Explore </Link>
-      </div>
+      {/* <div>
+        <Link to={"/explore"}> Explore </Link>
+        <Link to={"/join"}> Messages </Link>
+        <Link to={"/logout"}> Log Out </Link>
+
+      </div> */}
+      <Navbar />
       {isAuthenticated &&
         <>
           <Route path="/logout" exact component={LogoutButton} />

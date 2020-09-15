@@ -1,6 +1,6 @@
 import React from "react";
 import LogoutButton from "./Auth0/LogoutButton";
-import AvailableGd from "./AvailableGd";
+
 export default function Navbar() {
 	const [isActive, setisActive] = React.useState(false);
     return (
@@ -9,10 +9,10 @@ export default function Navbar() {
 			<div className="navbar-brand">
 				<a href="/" className="navbar-item">
 					<img
-						src="https://bulma.io/images/bulma-logo.png"
+						src="https://i.imgur.com/9I88eKA.png"
 						alt="Logo"
-						width="112"
-						height="28"
+						width="auto"
+						height="auto"
 					/>
 				</a>
 				<a
@@ -49,7 +49,6 @@ export default function Navbar() {
 				</div>
 			</div>
 		</nav>
-        <AvailableGd />
         </>
 	);
 }
