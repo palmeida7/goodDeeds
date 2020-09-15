@@ -2,39 +2,37 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { BrowserRouter as Router } from "react-router-dom";
+
 
 ReactDOM.render(
-  <Router>
-
   <Auth0Provider
-    domain="michaelcadima.us.auth0.com"
-    clientId="BxbhuOPMVBUby2nr8gsfYzsBokR1q773"
-    // redirectUri={`${window.location.origin}/profile`}
-    redirectUri={`${window.location.origin}/`}
-
+    domain="yim.us.auth0.com"
+    clientId="E9FDh3Hc3Mfz24zdTYKYX4pbrF677jhA"
+    redirectUri={`${window.location.origin}/profile`}
   >
     <App />
-  </Auth0Provider>
-  </Router>,
-
+  </Auth0Provider>,
   document.getElementById("root")
 );
 
-
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-
-// import App from './App';
-// //for auth0
-// // import { BrowserRouter as Router } from "react-router-dom";
-// import Auth0ProviderWithHistory from "./auth0-provider-with-history";
+// import { BrowserRouter as Router } from "react-router-dom";
 
 // ReactDOM.render(
-//     <Auth0ProviderWithHistory>
-//       <App />
-//     </Auth0ProviderWithHistory>,
+//   <Router>
+
+//   <Auth0Provider
+//     domain="michaelcadima.us.auth0.com"
+//     clientId="BxbhuOPMVBUby2nr8gsfYzsBokR1q773"
+//     // redirectUri={`${window.location.origin}/profile`}
+//     redirectUri={`${window.location.origin}/`}
+
+//   >
+//     <App />
+//   </Auth0Provider>
+//   </Router>,
+
 //   document.getElementById("root")
 // );
+
 
 
