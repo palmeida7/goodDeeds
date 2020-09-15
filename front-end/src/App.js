@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
 //added switch
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import { Container } from "react-bootstrap";
+// import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+// import { Container } from "react-bootstrap";
 
 
 import Join from "./components/Join/Join";
