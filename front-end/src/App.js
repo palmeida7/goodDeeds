@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Join from "./components/Join/Join";
@@ -16,9 +16,20 @@ import Explore from "./components/Explore";
 
 
 const App = () => {
-  const { isAuthenticated } = useAuth0();
-  console.log(isAuthenticated);
+  let query = new URLSearchParams(window.location.search);
+  console.log(query.entries())
+  const {isAuthenticated, isLoading, user, loginWithRedirect} = useAuth0();
+
+  console.log(isAuthenticated, isLoading, user);
+  if (!isAuthenticated && !query.get('code')) {
+    // return(
+    //   <div><button onClick={loginWithRedirect}>Login</button></div>
+    // )
+    loginWithRedirect()
+  }
+
   return (
+  
     <Router>
       {/* <Route path="/" exact component={Login} />
       <Route path="/register" exact component={Register} />
@@ -34,9 +45,9 @@ const App = () => {
       <Route path="/created_list" exact component={CreatedList} />
       <Route path="/create_deed" exact component={CreateDeed} />
       <Route path="/edit_deed" exact component={EditDeed} /> */}
-      {!isAuthenticated &&
-        <Route path="/" component={Login} />
-      }
+      <div>
+        <Link to={"/explore"}> Go to Explore </Link>
+      </div>
       {isAuthenticated &&
         <>
           <Route path="/logout" exact component={LogoutButton} />
