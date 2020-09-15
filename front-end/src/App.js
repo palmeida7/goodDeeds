@@ -3,8 +3,39 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
+//added switch
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Container } from "react-bootstrap";
+
+
 import Join from "./components/Join/Join";
 import Chat from "./components/Chat/Chat";
+//for auth0
+// import { NavBar, Footer } from "./auth";
+// import { Home, Profile, WelcomePage } from "./views";
+// import "./App.css";
+
+// const App = () => {
+//   return (
+//     <div id="app" className="d-flex flex-column h-100">
+
+//       <NavBar  />
+
+//       <Container className="navbar">
+//         <Switch>
+//           <Route path="/" exact component={Home} />
+//           <Route path="/profile" component={Profile} />
+//           <Route path="/welcomepage" component={WelcomePage} />
+          
+//           <Route path="/chat" component={Chat} />
+
+//         </Switch>
+//       </Container>
+//       <Footer />
+//     </div>
+//   );
+// };
+
 
 import Login from "./components/Auth0/Login";
 import LogoutButton from "./components/Auth0/LogoutButton";
@@ -50,6 +81,15 @@ const App = () => {
     </Router>
   )
 };
+
+//old
+// const App = () => (
+//   <Router>
+//     <Route path="/" exact component={Join} />
+//     <Route path="/chat" component={Chat} />
+//   </Router>
+// );
+
 
 
 export default App;
