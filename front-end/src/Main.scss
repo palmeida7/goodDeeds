@@ -1,0 +1,13 @@
+@charset "utf-8";
+@import "../node_modules/bulma/bulma.sass";
+
+.title {
+    font-family: 'Abril Fatface';
+    /* font-size: 70px; */
+}
+
+.logout-button {
+    background: transparent;
+    border: none;
+    outline: none !important;
+}
