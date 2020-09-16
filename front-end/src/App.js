@@ -12,6 +12,8 @@ import './Main.scss'
 import Navbar from "./components/Navbar";
 import Join from "./components/Join/Join";
 import Chat from "./components/Chat/Chat";
+import PublicProfile from "./components/PublicProfile";
+import PrivateProfile from "./components/PrivateProfile";
 //for auth0
 // import { NavBar, Footer } from "./auth";
 // import { Home, Profile, WelcomePage } from "./views";
@@ -60,13 +62,14 @@ const App = () => {
     loginWithRedirect()
   }
 
+  
+
+
   return (
   
     <Router>
       {/* <Route path="/" exact component={Login} />
       <Route path="/register" exact component={Register} />
-      <Route path="/private_profile" exact component={PrivateProfile} />
-      <Route path="/public_profile" exact component={PublicProfile} />
       <Route path="/explore" exact component={Explore} />
       <Route path="/upcoming" exact component={Upcoming} />
       <Route path="/completed" exact component={Completed} />
@@ -88,6 +91,8 @@ const App = () => {
         <>
           <Route path="/logout" exact component={LogoutButton} />
           <Route path="/profile" exact component={Profile} />
+          <Route path="/public_profile" exact component={PublicProfile} />
+          <Route path="/private_profile" exact component={PrivateProfile} />
           <Route path="/explore" exact component={Explore} />
           <Route path="/join" exact component={Join} />
           <Route path="/chat" component={Chat} />

@@ -1,12 +1,13 @@
 CREATE TABLE users (
     users_id SERIAL PRIMARY KEY,
-    email VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
     picture TEXT,
     name VARCHAR(255),
     username VARCHAR(255),
     location VARCHAR(255),
-    phone INT,
-    short_bio VARCHAR(255)
+    phone VARCHAR(50),
+    short_bio VARCHAR(255),
+    UNIQUE(email)
 );
 
 CREATE INDEX users_email ON users(email);
@@ -25,8 +26,10 @@ CREATE TABLE deeds (
     date_todo TIMESTAMP,
     location VARCHAR(50),
     status VARCHAR(20),
-    user_id INT REFERENCEs users(users_id)
+    deeds_email VARCHAR(50)
 );
+
+ALTER TABLE deeds ADD CONSTRAINT email_id_fk foreign key (deeds_email) references users(email);
 
 CREATE TABLE available_deeds (
     ad_id SERIAL PRIMARY KEY,
