@@ -1,36 +1,52 @@
-import React, {useEffect} from "react";
+import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 
-import LogoutButton from './LogoutButton';
-import AvailableGd from "../AvailableGd";
+import PublicProfile from "../PublicProfile";
+import PrivateProfile from "../PrivateProfile";
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const [userData, setUserData] = useState();
 
-    useEffect(()=>{
+    useEffect(() => {
         if (isAuthenticated) {
-            fetch('http://localhost:5000/add_users',{
-                method: 'POST', 
+            fetch('http://localhost:5000/add_users', {
+                method: 'POST',
                 body: JSON.stringify(user),
-                headers: {'Content-type':"application/json"}})
-                .then(res=>res.json())
-                .then(data=>console.log(data))
+                headers: { 'Content-type': "application/json" }
+            })
+                .then(res => res.json())
+                .then(data => console.log(data))
         }
-    },[isAuthenticated,user]);
+    }, [isAuthenticated, user]);
 
-    if (isLoading) {
+    useEffect(() => {
+        if (user) {
+            try {
+                fetch(`http://localhost:5000/user_profile/${user.email}`)
+                .then(res => res.json())
+                .then(data => setUserData(data))
+            } catch (err) {
+                console.error(err.message);
+            }
+        }
+    }, [user])
+
+
+    if (isLoading || !userData) {
         return <div>Loading ...</div>;
     }
 
     return (
-        isAuthenticated && (
+        isAuthenticated && userData && (
             <div>
                 {/* <div>{JSON.stringify(user, null, 2)}</div>
                 <img src={user.picture} alt={user.name} />
                 <h2>{user.name}</h2>
                 <p>{user.email}</p>
                 <LogoutButton /> */}
-                <AvailableGd />
+                <PublicProfile userInfo={userData} />
+                <PrivateProfile userData={userData} />
             </div>
         )
     );

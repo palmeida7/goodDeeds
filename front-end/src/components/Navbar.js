@@ -1,6 +1,8 @@
 import React from "react";
 import LogoutButton from "./Auth0/LogoutButton";
 
+import {Link} from "react-router-dom";
+
 export default function Navbar() {
 	const [isActive, setisActive] = React.useState(false);
     return (
@@ -36,7 +38,8 @@ export default function Navbar() {
 			>
 				<div class="navbar-end">
 					<div class="navbar-item">
-						<a class="navbar-item">Profile</a>
+                        <Link to={"/private_profile"} ><a class="navbar-item">Edit Profile</a> </Link>
+						<Link to={"/public_profile"} ><a  class="navbar-item">Profile</a></Link>
 						<a class="navbar-item">Deed</a>
 						<a class="navbar-item">Upcoming Deeds</a>
 						<a class="navbar-item">Create Deed+</a>
