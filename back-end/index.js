@@ -19,6 +19,7 @@ app.use(mRouter);
 app.use(cors());
 app.use(express.json());
 
+
 // users
 app.post("/add_users", async (req, res) => {
     try {
@@ -71,6 +72,111 @@ app.put("/update_user", async (req, res) => {
 
 
 // deeds
+
+//PJ EDITS//
+//PJ all deeds
+app.get("/deeds", async (req, res) => {
+  try {
+    const allDeeds = await pool.query("SELECT * FROM deeds");
+    res.send(allDeeds.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+
+//PJ all users
+app.get("/users", async (req, res) => {
+  try {
+    const allUsers = await pool.query("SELECT * FROM users");
+    res.send(allUsers.rows);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+//////////////////
+//PJ a deed
+app.get("/deed/:id", async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const deed = await pool.query("SELECT * FROM deeds WHERE deeds_id =$1", [id])
+    console.log(deed)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+
+//PJ a user
+app.get("/user/:id", async(req, res)=>{
+  try {
+    const {id} = req.params;
+    const deed = await pool.query("SELECT * FROM users WHERE user_id =$1", [id])
+    console.log(user)
+  } catch (err) {
+    console.error(err.message)
+  }
+});
+//////////////////
+//PJ create a deed
+app.post("/deed", async (req,res)=>{
+    try{
+      
+      const {title, description, category, location,status } = req.body;
+      const newDeed = await pool.query("INSERT INTO deeds (title, description, category, location,status) VALUES ($1,$2,$3,$4,$5) returning *", [title,description,category,location,status]);
+      res.json(newDeed.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+  })
+//////////////////
+//PJ edit a deed
+app.put("/deed/:id", async (req, res)=>{
+  try {
+    const {id}= req.params;
+    const {title, description, category, location,status } = req.body;
+    const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location,status, deeds_id) = ($1,$2,$3,$4,$5,$6) WHERE deeds_id = $6", [title, description, category, location,status, id]);
+    res.json("Deed was updated.");
+  } catch (err){
+      console.error(err.message);
+    }
+  })
+
+//PJ edit a user
+app.put("/user/:id", async (req, res)=>{
+  try {
+    const {id}= req.params;
+    const {name, username, location, email, phone, short_bio, picture } = req.body;
+    const editUser = await pool.query("UPDATE users SET (name, username, location, email, phone, short_bio, picture, user_id) = ($1,$2,$3,$4,$5,$6,$7,$8) WHERE user_id = $8", [name, username, location, email, phone, short_bio, picture, id]);
+    res.json("User was updated.");
+  } catch (err){
+      console.error(err.message);
+    }
+  })
+
+//////////////////
+//PJ delete a deed
+app.delete("/deed/:id", async (req,res)=>{
+  try{
+    const {id} = req.params;
+    const deleteDeed = await pool.query("DELETE FROM deeds WHERE deeds_id = $1", [id]);
+    res.json("Deed was deleted.")
+  } catch (err) {
+    console.error(err.messsage);
+  }
+})
+
+//PJ delete a user
+app.delete("/user/:id", async (req,res)=>{
+  try{
+    const {id} = req.params;
+    const deleteUser = await pool.query("DELETE FROM users WHERE user_id = $1", [id]);
+    res.json("User was deleted.")
+  } catch (err) {
+    console.error(err.messsage);
+  }
+})
+
+//END EDITS//
 
 
 // chat
