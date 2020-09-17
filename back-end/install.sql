@@ -6,7 +6,7 @@ CREATE TABLE users (
     username VARCHAR(255),
     location VARCHAR(255),
     phone VARCHAR(50),
-    short_bio VARCHAR(255),
+    short_bio TEXT,
     UNIQUE(email)
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE deeds (
     deeds_id SERIAL PRIMARY KEY,
     category VARCHAR(50),
     title VARCHAR(25),
-    description VARCHAR(255),
+    description TEXT,
     date_created TIMESTAMP,
     date_todo TIMESTAMP,
     location VARCHAR(50),

@@ -1,5 +1,17 @@
-import React, { Fragment } from "react";
-export default function AvailableGd() {
+import React, {useState} from "react";
+import {Redirect} from "react-router";
+export default function Available_GoodDeeds() {
+
+	const [learnMore, setLearnMore] = useState(false);
+
+	const onClick = () => {
+		setLearnMore(true);
+	};
+
+	if (learnMore) {
+		return <Redirect to={"/details"} />
+	};
+
 	return (
 		<section>
 			<div class="container">
@@ -51,12 +63,13 @@ export default function AvailableGd() {
 				{/* goodDeed Cards */}
 				<div class="columns">
 					<div class="column">
-						{/* card #2 start */}
+						{/* card #1 start */}
 						<div class="card">
 							<div class="card-image">
 								<figure class="image is-4by3">
 									<img
-										src="https://bulma.io/images/placeholders/1280x960.png"
+										// black lives matter image
+										src="https://i.imgur.com/ROvf215.png"
 										alt="Placeholder image"
 									/>
 								</figure>
@@ -101,7 +114,7 @@ export default function AvailableGd() {
 									</time>
 									<br />
 									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
+									<button class="button is-info mt-3 " onClick={onClick} >Learn More</button>
 									<button class="button is-black mt-3 is-pulled-right is-hidden">
 										Learn More
 									</button>
@@ -110,12 +123,12 @@ export default function AvailableGd() {
 						</div>
 					</div>
 					<div class="column">
-						{/* card #3 start */}
+						{/* card #2 start */}
 						<div class="card">
 							<div class="card-image">
 								<figure class="image is-4by3">
 									<img
-										src="https://bulma.io/images/placeholders/1280x960.png"
+										src="https://i.imgur.com/AAgWHo0.png"
 										alt="Placeholder image"
 									/>
 								</figure>
@@ -169,12 +182,12 @@ export default function AvailableGd() {
 						</div>
 					</div>
 					<div class="column">
-						{/* card start */}
+						{/* card #3 start seniors */}
 						<div class="card">
 							<div class="card-image">
 								<figure class="image is-4by3">
 									<img
-										src="https://bulma.io/images/placeholders/1280x960.png"
+										src="https://i.imgur.com/TOHpmYW.png"
 										alt="Placeholder image"
 									/>
 								</figure>
@@ -233,7 +246,7 @@ export default function AvailableGd() {
 							<div class="card-image">
 								<figure class="image is-4by3">
 									<img
-										src="https://bulma.io/images/placeholders/1280x960.png"
+										src="https://i.imgur.com/ROvf215.png"
 										alt="Placeholder image"
 									/>
 								</figure>
