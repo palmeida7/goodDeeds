@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import PublicProfile from "../PublicProfile";
-import PrivateProfile from "../PrivateProfile";
+import CreateDeed from '../CreateDeed';
+// import PrivateProfile from "../PrivateProfile";
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
@@ -32,6 +33,10 @@ const Profile = () => {
         }
     }, [user])
 
+    // useEffect(() => {
+
+    // });
+
 
     if (isLoading || !userData) {
         return <div>Loading ...</div>;
@@ -46,7 +51,8 @@ const Profile = () => {
                 <p>{user.email}</p>
                 <LogoutButton /> */}
                 <PublicProfile userInfo={userData} />
-                <PrivateProfile userData={userData} />
+                <CreateDeed />
+                {/* <PrivateProfile userData={userData} /> */}
             </div>
         )
     );
