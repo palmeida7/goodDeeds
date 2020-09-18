@@ -15,7 +15,7 @@ import CreateDeed from "./components/CreateDeed";
 import DeedAssigned from "./components/DeedAssigned";
 import DeedDetail from "./components/DeedDetail";
 import LogoutButton from "./components/Auth0/LogoutButton";
-import Profile from "./components/Auth0/Profile";
+import BackFront from "./components/Auth0/BackFront";
 import AvailableDeeds from "./components/AvailableDeeds";
 import AboutUs from "./components/AboutUs";
 
@@ -63,7 +63,7 @@ const App = () => {
         <>
           <Route path="/sign_in" component={SignIn} />
           <Route path="/logout" exact component={LogoutButton} />
-          <Route path="/hidden_profile" exact component={Profile} />
+          <Route path="/_hidden" exact component={BackFront} />
           <Route path="/public_profile" exact component={PublicProfile} />
           <Route path="/private_profile" exact component={PrivateProfile} />
           <Route path="/explore" exact component={AvailableDeeds} />
