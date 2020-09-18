@@ -185,7 +185,7 @@ export default function CreateDeed(props) {
 									value={category || ""}
 									onChange={e => setCategory(e.target.value)}
 								>
-									<option value="" disabled selected hidden>Choose An Interest Area</option>
+									<option value="" disabled hidden>Choose An Interest Area</option>
 									<option>Senior</option>
 									<option>Black Lives Matter</option>
 									<option>LBGTQ</option>
