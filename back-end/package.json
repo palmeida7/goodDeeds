@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "db:install": "createdb goodDeeds && psql goodDeeds < install.sql",
+    "db:delete": "dropdb goodDeeds",
     "db:seed": "psql goodDeeds < seed.sql",
     "db:reset": "dropdb goodDeeds && npm run db:install",
     "start": "nodemon index.js",

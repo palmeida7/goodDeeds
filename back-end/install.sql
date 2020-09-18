@@ -26,10 +26,8 @@ CREATE TABLE deeds (
     date_todo TIMESTAMP,
     location VARCHAR(50),
     status VARCHAR(20),
-    deeds_email VARCHAR(50)
+    users_id INT REFERENCES users(users_id)
 );
-
-ALTER TABLE deeds ADD CONSTRAINT email_id_fk foreign key (deeds_email) references users(email);
 
 CREATE TABLE available_deeds (
     ad_id SERIAL PRIMARY KEY,

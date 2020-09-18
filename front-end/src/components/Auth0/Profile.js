@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-
 import PublicProfile from "../PublicProfile";
 import CreateDeed from '../CreateDeed';
-// import PrivateProfile from "../PrivateProfile";
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [userData, setUserData] = useState();
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetch('http://localhost:5000/add_users', {
-                method: 'POST',
-                body: JSON.stringify(user),
-                headers: { 'Content-type': "application/json" }
-            })
-                .then(res => res.json())
-                .then(data => console.log(data))
-        }
-    }, [isAuthenticated, user]);
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         fetch('http://localhost:5000/add_users', {
+    //             method: 'POST',
+    //             body: JSON.stringify(user),
+    //             headers: { 'Content-type': "application/json" }
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => console.log(data))
+    //     }
+    // }, [isAuthenticated, user]);
+
 
     useEffect(() => {
         if (user) {
@@ -36,7 +35,6 @@ const Profile = () => {
     // useEffect(() => {
 
     // });
-
 
     if (isLoading || !userData) {
         return <div>Loading ...</div>;

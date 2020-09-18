@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Mini_Profile2 from "../components/Mini_Profile2";
+import MiniProfile from "../components/MiniProfile";
 
 export default function Deed_Assigned() {
 	return (
@@ -114,7 +114,7 @@ export default function Deed_Assigned() {
 								<div class="columns">
 									<div class="column">
 										<h1 class="title mt-6">Assigned goodDeed'r</h1>
-										<Mini_Profile2 />
+										<MiniProfile />
 									</div>
 								</div>
 							</div>

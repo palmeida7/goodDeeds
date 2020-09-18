@@ -5,17 +5,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import './Main.scss'
 
-
+import SignIn from "./components/SignIn";
 import Navbar from "./components/Navbar";
 import Join from "./components/Join/Join";
 import Chat from "./components/Chat/Chat";
 import PublicProfile from "./components/PublicProfile";
 import PrivateProfile from "./components/PrivateProfile";
 import CreateDeed from "./components/CreateDeed";
+import DeedAssigned from "./components/DeedAssigned";
 import DeedDetail from "./components/DeedDetail";
 import LogoutButton from "./components/Auth0/LogoutButton";
 import Profile from "./components/Auth0/Profile";
-import AvailableGd from "./components/AvailableGd";
+import AvailableDeeds from "./components/AvailableDeeds";
+import AboutUs from "./components/AboutUs";
 
 
 
@@ -59,15 +61,19 @@ const App = () => {
       <Navbar />
       {isAuthenticated &&
         <>
+          <Route path="/sign_in" component={SignIn} />
           <Route path="/logout" exact component={LogoutButton} />
           <Route path="/hidden_profile" exact component={Profile} />
           <Route path="/public_profile" exact component={PublicProfile} />
           <Route path="/private_profile" exact component={PrivateProfile} />
-          <Route path="/explore" exact component={AvailableGd} />
+          <Route path="/explore" exact component={AvailableDeeds} />
           <Route path="/create_deed" exact component={CreateDeed} />
+          <Route path="/deed_assigned" exact component={DeedAssigned} />
           <Route path="/details" exact component={DeedDetail} />
           <Route path="/message" exact component={Join} />
           <Route path="/chat" component={Chat} />
+          <Route path="/about" component={AboutUs} />
+
         </>
       }
 
@@ -80,43 +86,3 @@ const App = () => {
 
 
 export default App;
-
-
-//added switch
-// import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-// import { Container } from "react-bootstrap";
-
-
-
-//for auth0
-// import { NavBar, Footer } from "./auth";
-// import { Home, Profile, WelcomePage } from "./views";
-// import "./App.css";
-
-// const App = () => {
-//   return (
-//     <div id="app" className="d-flex flex-column h-100">
-
-//       <NavBar  />
-
-//       <Container className="navbar">
-//         <Switch>
-//           <Route path="/" exact component={Home} />
-//           <Route path="/profile" component={Profile} />
-//           <Route path="/welcomepage" component={WelcomePage} />
-//           <Route path="/chat" component={Chat} />
-
-//         </Switch>
-//       </Container>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-//old
-// const App = () => (
-//   <Router>
-//     <Route path="/" exact component={Join} />
-//     <Route path="/chat" component={Chat} />
-//   </Router>
-// );
