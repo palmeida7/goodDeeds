@@ -1,8 +1,38 @@
-import React, {useState} from "react";
-import {Redirect} from "react-router";
-export default function Available_GoodDeeds() {
-
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router";
+export default function Available_GoodDeeds(props) {
+	const [deeds, setDeeds] = useState([]);
 	const [learnMore, setLearnMore] = useState(false);
+	const deedsData = props.deedsData || {};
+	// const [interestArea, setInterestArea] = useState(deedsData.category);
+	let bannerImg = "";
+	let tagColor = "";
+
+	// useEffect(() => {
+	// 	if (!props.deedsData) {
+	// 	try {
+	// 		fetch(`http://localhost:5000/deeds/status`)
+	// 			.then(res => res.json())
+	// 			.then(data => console.log(data))
+	// 			.then(data => setDeeds(data))
+	// 			.then(data => setInterestArea(data.category))
+	// 	} catch (err) {
+	// 		console.error(err.message);
+	// 	}
+	// 	}
+	// })
+	async function getDeeds() {
+		if (!props.deedsData) {
+			const response = await fetch("http://localhost:5000/deeds/status");
+			const deedArray = await response.json();
+			console.log(deedArray);
+			setDeeds(deedArray);
+			// setInterestArea(deedArray.category);
+		}
+	}
+	useEffect(() => {
+		getDeeds();
+	}, []);
 
 	const onClick = () => {
 		setLearnMore(true);
@@ -12,44 +42,62 @@ export default function Available_GoodDeeds() {
 		return <Redirect to={"/details"} />
 	};
 
+	if (deeds.category === "Black Lives Matter") {
+		bannerImg = "https://i.imgur.com/ROvf215.png"
+	} else if (deeds.category === "Senior") {
+		bannerImg = "https://i.imgur.com/TOHpmYW.png"
+	} else if (deeds.category === "LBGTQ") {
+		bannerImg = "https://i.imgur.com/AAgWHo0.png"
+	} else {
+		bannerImg = "https://i.imgur.com/YU649NJ.png"
+	}
+
+	// blm
+	// "tag is-black"
+	// senior
+	// "tag is-warning"
+	// lbgtq
+	// "tag is-primary"
+
+
 	return (
 		<section>
-			<div class="container">
-				<section class="section">
-					<div class="container">
+			<div className="container">
+				<section className="section">
+					<div className="container">
 						{/* button : save & continue */}
-						<button class="button is-dark is-pulled-right">
+						<button className="button is-dark is-pulled-right">
 							Completed goodDeeds
 						</button>
-						<button class="button is-warning is-pulled-right mr-3">
+						<button className="button is-warning is-pulled-right mr-3">
 							Upcoming goodDeeds
 						</button>
 						<div>
-							<span class="tag is-light mt-4">Atlanta, GA</span>
+							<span className="tag is-light mt-4">Atlanta, GA</span>
 						</div>
 						{/* screen title */}
-						<h1 class="title is-size-1">Available goodDeeds</h1>
+						<h1 className="title is-size-1">Available goodDeeds</h1>
 					</div>
 					<div>
 						<section>
 							{/* avatar */}
-							<div class="container">
-								<article class="media">
-									<figure class="media-left">
-										<p class="image is-48x48">
+							<div className="container">
+								<article className="media">
+									<figure className="media-left">
+										<p className="image is-48x48">
 											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/128x128.png"
+												className="is-rounded"
+												src={window.sessionStorage.getItem("picture")}
 											/>
 										</p>
 									</figure>
 									{/* user info */}
-									<div class="media-content">
-										<div class="content">
+									<div className="media-content">
+										<div className="content">
 											<p>
-												<strong>John Smith</strong> <br />
-												<small>@johnsmith</small>{" "}
-												<span class="tag is-success is-normal">Rating</span>{" "}
+												<strong>{window.sessionStorage.getItem("name")}</strong> <br />
+												<small>@{window.sessionStorage.getItem("username")}</small>{" "}
+												<span className="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />
 											</p>
@@ -61,242 +109,68 @@ export default function Available_GoodDeeds() {
 					</div>
 				</section>
 				{/* goodDeed Cards */}
-				<div class="columns">
-					<div class="column">
-						{/* card #1 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										// black lives matter image
-										src="https://i.imgur.com/ROvf215.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-										<figure class="image is-48x48">
+				<div className="container" >
+					<div className="columns ">
+						<div className="column is-one-quarter">
+							{/* card #1 start */}
+							{deeds.map((deed, idx) => (
+								<div className="card" key={idx}>
+									<div className="card-image">
+										<figure className="image is-4by3">
 											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
+												// black lives matter image
+												src={"https://i.imgur.com/ROvf215.png"}
 												alt="Placeholder image"
 											/>
 										</figure>
 									</div>
-									{/* user info */}
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-								{/* interest tags areas */}
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-black">Black Lives Matter</span>
-								</div>
-								{/* location */}
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										6:30 PM - 7:30 PM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 " onClick={onClick} >Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
+									<div className="card-content">
+										<div className="media">
+											<div className="media-left">
+												{/* image avatar */}
+												<figure className="image is-48x48">
+													<img
+														className="is-rounded"
+														src={deed.picture}
+														alt="Placeholder image"
+													/>
+												</figure>
+											</div>
+											{/* user info */}
+											<div className="media-content">
+												<p className="title is-4">{deed.name}</p>
+												<p className="subtitle is-6">@{deed.username}</p>
+											</div>
+										</div>
+										{/* interest tags areas */}
+										<label className="label">Community</label>
+										<div className="tags has-addons">
+											<span className={tagColor}>{deed.category}</span>
+										</div>
+										{/* location */}
+										<div className="content">
+											<label className="label mb-0">Location</label>
+											{deed.location}
+											<br />
+											{/* summary */}
+											<label className="label mb-0">Deed Summary</label>
+											{deed.description}
+											<br />
+											{/* deed date */}
+											<label className="label mb-0">Deed Request</label>
+											<time dateTime="2016-1-1">
+												{deed.date_todo}
+											</time>
+											<br />
+											{/* learn more */}
+											<button className="button is-info mt-3 " onClick={onClick} >Learn More</button>
+											<button className="button is-black mt-3 is-pulled-right is-hidden">
+												Learn More
 									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						{/* card #2 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/AAgWHo0.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-									{/* user info */}
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
+										</div>
 									</div>
 								</div>
-								{/* interest tags area */}
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-primary">LBGTQ</span>
-								</div>
-								{/* location */}
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										1:30 PM - 2:30 PM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						{/* card #3 start seniors */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/TOHpmYW.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-									{/* user info */}
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-								{/* interest tags area */}
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-warning">Seniors</span>
-								</div>
-								{/* location */}
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										3:30 PM - 4:30 PM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						{/* card #4 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/ROvf215.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-									{/* user info */}
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-								{/* interest tags area */}
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-black">Black Lives Matter</span>
-								</div>
-								{/* location */}
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										8:30 AM - 9:30 AM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
+							))}
 						</div>
 					</div>
 				</div>

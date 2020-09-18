@@ -119,10 +119,10 @@ app.put("/edit_deed", async (req, res) => {
     }
 })
 
-//deed with a specific status 
+//deed shown based on status
 app.get("/deeds/status", async (req, res) => {
     try {
-        const openDeeds = await pool.query("SELECT * FROM deeds WHERE status='open'");
+        const openDeeds = await pool.query("SELECT d.category, d.title, d.description, d.location, d.date_created, d.date_todo, d.status, u.name, u.username, u.picture, u.email FROM deeds AS d JOIN users AS u ON d.users_id=u.users_id AND d.status='open';");
         res.send(openDeeds.rows);
     } catch (err) {
         console.log(err.message);
