@@ -47,12 +47,17 @@ export default function Navbar() {
                             <Link to={"/explore"}>
                                 <a className="navbar-item">Deed</a>
                             </Link>
+                            <Link to={"/deed_assigned"}>
                             <a className="navbar-item">Upcoming Deeds</a>
+                            </Link>
                             <Link to={"/create_deed"}>
                             <a className="navbar-item">Create Deed+</a>
                             </Link>
                             <Link to={"/message"}>
                                 <a className="navbar-item">Chat</a>
+                            </Link>
+                            <Link to={"/about"}>
+                                <a className="navbar-item">About</a>
                             </Link>
                             {/* <div class="buttons"> */}
                             {/* <a class="button is-light">{<LogoutButton />}</a> */}
