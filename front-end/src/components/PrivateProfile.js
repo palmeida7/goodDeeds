@@ -68,7 +68,7 @@ const PrivateProfile = (props) => {
                                 Save & Continue
 						</button>
                             <div>
-                                <span class="tag is-light" readOnly>{location}</span>
+                                <span class="tag is-light" >{location}</span>
                             </div>
                             {/* screen title */}
                             <h1 class="title is-size-1">Private Profile</h1>

@@ -42,7 +42,7 @@ app.get("/user_profile", async (req, res) => {
     }
 });
 
-// get SPECIFIC profile data
+// get USER profile data
 app.get("/user_profile/:email", async (req, res) => {
     try {
         const { email } = req.params
@@ -96,13 +96,11 @@ app.get("/deed/:id", async (req, res) => {
     }
 });
 
-//////////////////
-//PJ create a deed
-app.post("/deed", async (req, res) => {
+// create a deed
+app.post("/create_deed", async (req, res) => {
     try {
-
-        const { title, description, category, location, status } = req.body;
-        const newDeed = await pool.query("INSERT INTO deeds (title, description, category, location,status) VALUES ($1,$2,$3,$4,$5) returning *", [title, description, category, location, status]);
+        const { title, description, category, location, status, usersId, dateTodo, dateCreated } = req.body;
+        const newDeed = await pool.query("INSERT INTO deeds (title, description, category, location, status, users_id, date_todo, date_created) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) returning *", [title, description, category, location, status, usersId, dateTodo, dateCreated]);
         res.json(newDeed.rows[0]);
     } catch (err) {
         console.error(err.message);
@@ -110,7 +108,7 @@ app.post("/deed", async (req, res) => {
 })
 //////////////////
 //PJ edit a deed
-app.put("/deed/:id", async (req, res) => {
+app.put("/edit_deed", async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, category, location, status } = req.body;
