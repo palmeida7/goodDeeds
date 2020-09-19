@@ -35,7 +35,7 @@ const SignIn = () => {
             console.error(err.message);
     
         }
-    }, []);
+    }, [isAuthenticated, user]);
 
 
     return (
