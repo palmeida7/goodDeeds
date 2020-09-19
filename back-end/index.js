@@ -78,17 +78,24 @@ app.get("/deeds/", async (req, res) => {
     try {
         // filter status conditions
         const { status, assignerId } = req.query;
-        console.log(assignerId);
-        const allDeeds = await pool.query(`
+        let sqlStr = `
             SELECT 
                 d.id, d.category, d.title, d.description, d.location, d.date_created, 
                 d.date_todo, d.status, u.name, u.username, u.picture, u.email 
             FROM deeds AS d 
             JOIN users AS u 
-            ON d.assigner_id=u.id
-            AND d.status='${status}' 
-            AND d.assigner_id!=${assignerId}
-            ;`);
+            ON d.assigner_id=u.id`;
+        let addStatus = ` AND d.status='${status}'`;
+        let addAssigner = ` AND d.assigner_id!=${assignerId}`;
+            if (status) {
+                sqlStr = sqlStr + addStatus;
+            };
+            if (assignerId) {
+                sqlStr = sqlStr + addAssigner;
+            };
+        const allDeeds = await pool.query(sqlStr);
+        console.log(sqlStr);
+        console.log(allDeeds);
         res.send(allDeeds.rows);
     } catch (err) {
         console.log(err.message);
