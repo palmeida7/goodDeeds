@@ -11,15 +11,14 @@ export default function DeedDetail(props) {
 	const id = props.match.params.id;
 	const userId = window.sessionStorage.getItem("users_id"); // rename to userid
 	const [goThrough, setGoThrough] = useState(false);
-	const [hiddenBtn, setHiddenBtn] = useState('');
+	const [isOwner, setIsOwner] = useState(false);
 
 	async function getDeedsId() {
 		const resp = await fetch(`http://localhost:5000/deed/${props.match.params.id}`)
 		const deeds = await resp.json();
 		setDetailData(deeds);
 		if (userId == deeds.assigner_id) {
-			setHiddenBtn("is-hidden")
-			console.log('does it work?')
+			setIsOwner(true)
 		};
 	};
 
@@ -55,13 +54,15 @@ export default function DeedDetail(props) {
 					<div className="container">
 						{/* button : save & continue */}
 						<button onClick={acceptDeed}
-								className={`btog button is-success is-pulled-right ${hiddenBtn}`}
-							>
+								className={`btog button is-success is-pulled-right ${isOwner ? 'is-hidden' : ''}`} >
 								Available goodDeed
 						</button>
 						<div>
 							<span className="tag is-light">{detailData.location}</span>
 						</div>
+						<button className={`btog button is-warning is-pulled-right ${isOwner ? '' : 'is-hidden'}`} >
+										Edit Deed
+									</button>
 						{/* screen title */}
 						<h1 className="title is-size-1">goodDeed Detail</h1>
 					</div>

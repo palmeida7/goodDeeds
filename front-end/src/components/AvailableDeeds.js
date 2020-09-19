@@ -8,7 +8,8 @@ export default function AvailablDeeds() {
 
 	async function getDeeds() {
 		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
-			status: 'open'
+			status: 'open', 
+			assignerId: window.sessionStorage.getItem('users_id')
 		}));
 		const deedArray = await response.json();
 		setDeeds(deedArray);
@@ -145,9 +146,6 @@ export default function AvailablDeeds() {
 									{/* learn more */}
 									<pre>{JSON.stringify(deed, null, 2)}</pre>
 									<Link className="button is-info mt-3 " to={`/details/${deed.id}`} >Learn More</Link>
-									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button> */}
 								</div>
 							</div>
 						</div>
