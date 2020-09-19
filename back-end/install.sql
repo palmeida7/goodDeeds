@@ -25,6 +25,9 @@ CREATE TABLE deeds (
 
 CREATE TABLE users_deeds (
     id SERIAL PRIMARY KEY,
-    assigner_id INT REFERENCES users(id),
+    assigned_id INT REFERENCES users(id),
     deeds_id INT REFERENCES deeds(id)
 );
+
+CREATE UNIQUE INDEX idx_users_deeds
+ON users_deeds(assigned_id, deeds_id);

@@ -23,7 +23,7 @@ export default function AboutUs() {
 									<img
 										// gooddeeds image
 										src="https://i.imgur.com/NPU0IGU.png"
-										alt="Placeholder image"
+										alt="banner"
 									/>
 								</figure>
 							</div>
@@ -36,7 +36,7 @@ export default function AboutUs() {
 											<img
 												class="is-rounded"
 												src="https://avatars2.githubusercontent.com/u/65040522?s=460&u=2ad055ccd4b23e2e0d7ef7c106f3cb01323b6b0f&v=4"
-												alt="Placeholder image"
+												alt="banner"
 											/>
 										</figure>
 									</div>
@@ -80,7 +80,7 @@ export default function AboutUs() {
 								<figure class="image is-4by3">
 									<img
 										src="https://i.imgur.com/NPU0IGU.png"
-										alt="Placeholder image"
+										alt="banner"
 									/>
 								</figure>
 							</div>
@@ -93,7 +93,7 @@ export default function AboutUs() {
 											<img
 												class="is-rounded"
 												src="https://avatars2.githubusercontent.com/u/63179764?s=460&u=146962013522fe4e4fa7b0d34e72bb640ce3cdcc&v=4"
-												alt="Placeholder image"
+												alt="banner"
 											/>
 										</figure>
 									</div>
@@ -136,7 +136,7 @@ export default function AboutUs() {
 								<figure class="image is-4by3">
 									<img
 										src="https://i.imgur.com/NPU0IGU.png"
-										alt="Placeholder image"
+										alt="banner"
 									/>
 								</figure>
 							</div>
@@ -149,7 +149,7 @@ export default function AboutUs() {
 											<img
 												class="is-rounded"
 												src="https://avatars2.githubusercontent.com/u/66264982?s=460&u=608ace4b0516092c2b5170d6d6246b2c746dabb9&v=4"
-												alt="Placeholder image"
+												alt="banner"
 											/>
 										</figure>
 									</div>
@@ -192,7 +192,7 @@ export default function AboutUs() {
 								<figure class="image is-4by3">
 									<img
 										src="https://i.imgur.com/NPU0IGU.png"
-										alt="Placeholder image"
+										alt="banner"
 									/>
 								</figure>
 							</div>
@@ -205,7 +205,7 @@ export default function AboutUs() {
 											<img
 												class="is-rounded"
 												src="https://avatars0.githubusercontent.com/u/65964734?s=460&u=319b1fb23c666b612e630b5f99a6faa42227fa1c&v=4"
-												alt="Placeholder image"
+												alt="banner"
 											/>
 										</figure>
 									</div>

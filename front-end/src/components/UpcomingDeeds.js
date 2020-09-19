@@ -1,50 +1,86 @@
-import React, { Fragment } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Moment from "react-moment";
+import 'moment-timezone';
 
 export default function UpcomingDeeds() {
+	const [deeds, setDeeds] = useState([]);
+
+	async function getDeeds() {
+		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
+			status: 'assigned'
+		}));
+		const deedArray = await response.json();
+		setDeeds(deedArray);
+	}
+	useEffect(() => {
+		getDeeds();
+	}, []);
+
+	const matchTagImg = (deed) => {
+		if (deed.category === "Black Lives Matter") {
+			return "https://i.imgur.com/ROvf215.png"
+		} else if (deed.category === "Senior") {
+			return "https://i.imgur.com/TOHpmYW.png"
+		} else if (deed.category === "LBGTQ") {
+			return "https://i.imgur.com/AAgWHo0.png"
+		} else {
+			return "https://i.imgur.com/YU649NJ.png"
+		}
+	}
+
+	const matchTagColor = (deed) => {
+		if (deed.category === "Black Lives Matter") {
+			return "tag is-black"
+		} else if (deed.category === "Senior") {
+			return "tag is-warning"
+		} else if (deed.category === "LBGTQ") {
+			return "tag is-primary"
+		} else {
+			return "tag is-red"
+		}
+	}
+
+
 	return (
 		<section>
-			<div class="container">
-				<section class="section">
-					<div class="container">
+			<div className="container">
+				<section className="section">
+					<div className="container">
 						{/* button : save & continue */}
-
-						<button class="button is-dark is-pulled-right">
+						<button className="button is-dark is-pulled-right">
 							Completed goodDeeds
 						</button>
-						<button class="button is-success is-pulled-right mr-3">
+						<Link to={'/explore'} className="button is-success is-pulled-right mr-3">
 							Available goodDeeds
-						</button>
+						</Link>
 						<div>
-							<span class="tag is-light mt-4">Atlanta, GA</span>
+							<span className="tag is-light mt-4">{window.sessionStorage.getItem("location")}</span>
 						</div>
-
 						{/* screen title */}
-
-						<h1 class="title is-size-1">Upcoming goodDeeds</h1>
+						<h1 className="title is-size-1">Upcoming goodDeeds</h1>
 					</div>
 					<div>
 						<section>
 							{/* avatar */}
-
-							<div class="container">
-								<article class="media">
-									<figure class="media-left">
-										<p class="image is-48x48">
+							<div className="container">
+								<article className="media">
+									<figure className="media-left">
+										<p className="image is-48x48">
 											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/128x128.png"
+												className="is-rounded"
+												src={window.sessionStorage.getItem("picture")}
+												alt="user's avatar"
 											/>
 										</p>
 									</figure>
-
 									{/* user info */}
-
-									<div class="media-content">
-										<div class="content">
+									<div className="media-content">
+										<div className="content">
 											<p>
-												<strong>John Smith</strong> <br />
-												<small>@johnsmith</small>{" "}
-												<span class="tag is-success is-normal">Rating</span>{" "}
+												<strong>{window.sessionStorage.getItem("name")}</strong> <br />
+												<small>@{window.sessionStorage.getItem("username")}</small>{" "}
+												<span className="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />
 											</p>
@@ -55,274 +91,68 @@ export default function UpcomingDeeds() {
 						</section>
 					</div>
 				</section>
-
 				{/* goodDeed Cards */}
-				<div class="columns">
-					<div class="column">
-						{/* card #1 start */}
-
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
+				<div className="column is-one-quarter">
+					{/* card #1 start */}
+					{deeds.map((deed, idx) => (
+						<div className="card mb-3" key={idx}>
+							<div className="card-image">
+								<figure className="image is-4by3">
 									<img
-										src="https://i.imgur.com/ROvf215.png"
-										alt="Placeholder image"
+										// category card image
+										src={matchTagImg(deed)}
+										alt="banner"
 									/>
 								</figure>
 							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
+							<div className="card-content">
+								<div className="media">
+									<div className="media-left">
 										{/* image avatar */}
-
-										<figure class="image is-48x48">
+										<figure className="image is-48x48">
 											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
+												className="is-rounded"
+												src={deed.picture}
+												alt="user's avatar"
 											/>
 										</figure>
 									</div>
-
 									{/* user info */}
-
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
+									<div className="media-content">
+										<p className="title is-4">{deed.name}</p>
+										<p className="subtitle is-6">@{deed.username}</p>
 									</div>
 								</div>
-
 								{/* interest tags areas */}
-
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-black">Black Lives Matter</span>
+								<label className="label">Community</label>
+								<div className="tags has-addons">
+									<span className={matchTagColor(deed)}>{deed.category}</span>
 								</div>
-
 								{/* location */}
-
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
+								<div className="content">
+									<label className="label mb-0">Location</label>
+									{deed.location}
 									<br />
 									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
+									<label className="label mb-0">Deed Summary</label>
+									{deed.description}
 									<br />
 									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										6:30 PM - 7:30 PM - Sep 28, 2020
+									<label className="label mb-0">Deed Request</label>
+									<time dateTime="2016-1-1">
+										<Moment format="MM/DD/YYYY hh:mm A">{deed.date_todo}</Moment>
 									</time>
 									<br />
 									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
+									<pre>{JSON.stringify(deed, null, 2)}</pre>
+									<Link className="button is-info mt-3 " to={`/details/${deed.id}`} >Learn More</Link>
+									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
 										Learn More
-									</button>
+									</button> */}
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="column">
-						{/* card #2 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/AAgWHo0.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-
-									{/* user info */}
-
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-
-								{/* interest tags area */}
-
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-primary">LBGTQ</span>
-								</div>
-
-								{/* location */}
-
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										1:30 PM - 2:30 PM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						{/* card #3 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/TOHpmYW.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-
-									{/* user info */}
-
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-
-								{/* interest tags area */}
-
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-warning">Seniors</span>
-								</div>
-
-								{/* location */}
-
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										3:30 PM - 4:30 PM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						{/* card #4 start */}
-						<div class="card">
-							<div class="card-image">
-								<figure class="image is-4by3">
-									<img
-										src="https://i.imgur.com/ROvf215.png"
-										alt="Placeholder image"
-									/>
-								</figure>
-							</div>
-							<div class="card-content">
-								<div class="media">
-									<div class="media-left">
-										{/* image avatar */}
-
-										<figure class="image is-48x48">
-											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/96x96.png"
-												alt="Placeholder image"
-											/>
-										</figure>
-									</div>
-
-									{/* user info */}
-
-									<div class="media-content">
-										<p class="title is-4">John Smith</p>
-										<p class="subtitle is-6">@johnsmith</p>
-									</div>
-								</div>
-
-								{/* interest tags area */}
-
-								<label class="label">Community</label>
-								<div class="tags has-addons">
-									<span class="tag is-black">Black Lives Matter</span>
-								</div>
-
-								{/* location */}
-
-								<div class="content">
-									<label class="label mb-0">Location</label>
-									Brookhaven, GA
-									<br />
-									{/* summary */}
-									<label class="label mb-0">Deed Summary</label>
-									This section is designed for a brief summary of the goodDeeds.
-									All goodDeeds will have 2-3 sentence summaries.
-									<br />
-									{/* deed date */}
-									<label class="label mb-0">Deed Date</label>
-									<time datetime="2016-1-1">
-										8:30 AM - 9:30 AM - Sep 28, 2020
-									</time>
-									<br />
-									{/* learn more */}
-									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right is-hidden">
-										Learn More
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					))}
 				</div>
 			</div>
 		</section>
