@@ -18,7 +18,7 @@ export default function AvailablDeeds() {
 			return "https://i.imgur.com/ROvf215.png"
 		} else if (deed.category === "Senior") {
 			return "https://i.imgur.com/TOHpmYW.png"
-		} else if (deed.category === "LBGQT") {
+		} else if (deed.category === "LBGTQ") {
 			return "https://i.imgur.com/AAgWHo0.png"
 		} else {
 			return "https://i.imgur.com/YU649NJ.png"
@@ -30,7 +30,7 @@ export default function AvailablDeeds() {
 			return "tag is-black"
 		} else if (deed.category === "Senior") {
 			return "tag is-warning"
-		} else if (deed.category === "LBGQT") {
+		} else if (deed.category === "LBGTQ") {
 			return "tag is-primary"
 		} else {
 			return "tag is-red"

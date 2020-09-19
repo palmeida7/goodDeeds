@@ -6,8 +6,7 @@ CREATE TABLE users (
     username VARCHAR(255),
     location VARCHAR(255),
     phone VARCHAR(50),
-    short_bio TEXT,
-    UNIQUE(email)
+    short_bio TEXT
 );
 
 CREATE INDEX users_email ON users(email);
