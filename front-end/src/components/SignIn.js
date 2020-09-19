@@ -13,7 +13,6 @@ const SignIn = () => {
                 headers: { 'Content-type': "application/json" }
             })
                 .then(res => res.json())
-                .then(data => console.log(data))
         }
     }, [isAuthenticated, user]);
 
@@ -29,7 +28,7 @@ const SignIn = () => {
                     window.sessionStorage.setItem("name", data.name)
                     window.sessionStorage.setItem("email", data.email)
                     window.sessionStorage.setItem("picture", data.picture)
-                    window.sessionStorage.setItem("users_id",data.users_id)
+                    window.sessionStorage.setItem("users_id",data.id)
                 })
 
         } catch (err) {

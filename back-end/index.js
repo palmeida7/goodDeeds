@@ -69,15 +69,17 @@ app.put("/update_user", async (req, res) => {
 });
 
 
-
-
-// deeds
-
-//PJ EDITS//
-//PJ all deeds
+// all deeds
 app.get("/deeds", async (req, res) => {
     try {
-        const allDeeds = await pool.query("SELECT * FROM deeds");
+        // filter status conditions
+        const allDeeds = await pool.query(`
+            SELECT 
+                d.id, d.category, d.title, d.description, d.location, d.date_created, 
+                d.date_todo, d.status, u.name, u.username, u.picture, u.email 
+            FROM deeds AS d 
+            JOIN users AS u ON d.id=u.id;
+            `);
         res.send(allDeeds.rows);
     } catch (err) {
         console.log(err.message);
@@ -89,30 +91,39 @@ app.get("/deeds", async (req, res) => {
 app.get("/deed/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deed = await pool.query("SELECT * FROM deeds WHERE deeds_id =$1", [id])
+        const deed = await pool.query("SELECT * FROM deeds WHERE id =$1", [id])
         res.json(deed.rows[0]);
     } catch (err) {
         console.error(err.message)
     }
 });
 
+
 // create a deed
 app.post("/create_deed", async (req, res) => {
     try {
-        const { title, description, category, location, status, usersId, dateTodo, dateCreated } = req.body;
-        const newDeed = await pool.query("INSERT INTO deeds (title, description, category, location, status, users_id, date_todo, date_created) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) returning *", [title, description, category, location, status, usersId, dateTodo, dateCreated]);
+        const { title, description, category, deedLocation, status, assignerId, dateTodo, dateCreated } = req.body;
+        const newDeed = await pool.query(`
+            INSERT INTO deeds (
+                title, description, category, location, status, 
+                assigner_id, date_todo, date_created
+                ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+                returning *`, 
+                [title, description, category, deedLocation, status, assignerId, dateTodo, dateCreated]
+                );
+        console.log(req.body);
         res.json(newDeed.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
 })
-//////////////////
-//PJ edit a deed
+
+//edit a deed
 app.put("/edit_deed", async (req, res) => {
     try {
         const { id } = req.params;
         const { title, description, category, location, status } = req.body;
-        const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location,status, deeds_id) = ($1,$2,$3,$4,$5,$6) WHERE deeds_id = $6", [title, description, category, location, status, id]);
+        const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) WHERE id = $6", [title, description, category, location, status, id]);
         res.json("Deed was updated.");
     } catch (err) {
         console.error(err.message);
@@ -120,41 +131,29 @@ app.put("/edit_deed", async (req, res) => {
 })
 
 //deed shown based on status
-app.get("/deeds/status", async (req, res) => {
-    try {
-        const openDeeds = await pool.query("SELECT d.deeds_id, d.category, d.title, d.description, d.location, d.date_created, d.date_todo, d.status, u.name, u.username, u.picture, u.email FROM deeds AS d JOIN users AS u ON d.users_id=u.users_id AND d.status='open';");
-        res.send(openDeeds.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
+// app.get("/deeds/status", async (req, res) => {
+//     try {
+        
+//         const openDeeds = await pool.query("SELECT d.deeds_id, d.category, d.title, d.description, d.location, d.date_created, d.date_todo, d.status, u.name, u.username, u.picture, u.email FROM deeds AS d JOIN users AS u ON d.users_id=u.users_id AND d.status='open';");
+//         res.send(openDeeds.rows);
+//     } catch (err) {
+//         console.log(err.message);
+//     }
+// });
 
 
 
-//////////////////
-//PJ delete a deed
+// delete a deed
 app.delete("/deed/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deleteDeed = await pool.query("DELETE FROM deeds WHERE deeds_id = $1", [id]);
+        const deleteDeed = await pool.query("DELETE FROM deeds WHERE id = $1", [id]);
         res.json("Deed was deleted.")
     } catch (err) {
         console.error(err.messsage);
     }
 })
 
-//PJ delete a user
-app.delete("/user/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const deleteUser = await pool.query("DELETE FROM users WHERE user_id = $1", [id]);
-        res.json("User was deleted.")
-    } catch (err) {
-        console.error(err.messsage);
-    }
-})
-
-//END EDITS//
 
 
 // chat

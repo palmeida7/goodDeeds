@@ -30,8 +30,8 @@ const PrivateProfile = (props) => {
     const [phone, setPhone] = useState(userData.phone);
     const [shortBio, setShortBio] = useState(userData.short_bio);
     const [name, setName] = useState(userData.name);
-    const [email, setEmail] = useState(user.email);
-    const [picture, setPicture] = useState(user.picture);
+    const [email] = useState(user.email);
+    const [picture] = useState(user.picture);
     const [updated, setUpdated] = useState(false);
 
     const onSubmitForm = async (e) => {

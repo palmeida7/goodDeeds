@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React from "react";
 import MiniProfile from "../components/MiniProfile";
 
-export default function Deed_Assigned() {
+export default function DeedAssigned() {
 	return (
 		<section>
 			<div class="container">

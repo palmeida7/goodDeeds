@@ -25,14 +25,8 @@ import AboutUs from "./components/AboutUs";
 
 const App = () => {
   let query = new URLSearchParams(window.location.search);
-  console.log(query.entries())
   const {isAuthenticated, isLoading, user, loginWithRedirect} = useAuth0();
-
-  console.log(isAuthenticated, isLoading, user);
   if (!isAuthenticated && !query.get('code')) {
-    // return(
-    //   <div><button onClick={loginWithRedirect}>Login</button></div>
-    // )
     loginWithRedirect()
   }
 
