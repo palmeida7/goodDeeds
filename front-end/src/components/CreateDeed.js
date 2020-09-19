@@ -2,30 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 // import { useAuth0 } from "@auth0/auth0-react";
 export default function CreateDeed(props) {
-
-
-	console.log(window.sessionStorage.getItem("email"));
-
-	// useEffect(() => {
-	//     if (!props.deedData) {
-	//         try {
-	//             fetch(`http://localhost:5000/user_profile/deed/${id}`)
-	//                 .then(res => res.json())
-	//                 .then(data => {
-	// 					setCategory(data.category)
-	//                     setTitle(data.title)
-	//                     setDescription(data.description)
-	//                     setDateCreated(data.date_created)
-	// 					setDateTodo(data_todo)
-	// 					setLocation(data.location)
-	// 					setStatus(data.status)
-	//                 })
-	//         } catch (err) {
-	//             console.error(err.message);
-	//         }
-	//     }
-	// }, []);
-
 	// deeds
 	const deedData = props.deedData || {};
 	const [category, setCategory] = useState(deedData.category);
@@ -35,7 +11,7 @@ export default function CreateDeed(props) {
 	const [deedLocation, setDeedLocation] = useState(deedData.location);
 	const dateCreated = new Date().toISOString();
 	const status = "open";
-	const usersId = window.sessionStorage.getItem("users_id");
+	const assignerId = window.sessionStorage.getItem("users_id");
 	const [updated, setUpdated] = useState(false);
 
 	// profile data
@@ -46,16 +22,14 @@ export default function CreateDeed(props) {
 
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
-		console.log("Deed was created.")
 		try {
-			const body = { category, title, description, dateCreated, dateTodo, location, status, usersId };
+			const body = { category, title, description, dateCreated, dateTodo, deedLocation, status, assignerId };
 			const response = await fetch(`http://localhost:5000/create_deed`, {
 				method: "POST",
 				headers: { "Content-type": "application/json" },
 				body: JSON.stringify(body)
 			});
-			let results = await response.json();
-			console.log(results);
+			await response.json();
 			setUpdated(true);
 		} catch (err) {
 			console.error(err.message);

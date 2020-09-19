@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-export default function Mini_Profile2() {
+import React from "react";
+export default function MiniProfile() {
     return (
         <div class="container">
             <article class="media">
@@ -14,8 +14,8 @@ export default function Mini_Profile2() {
                 <div class="media-content">
                     <div class="content">
                         <p>
-                            <a href="../screens/Public_Profile.js"><strong>John Smith</strong> <br /></a>
-                            <small>@johnsmith</small>{" "}
+                            <a href="../screens/Public_Profile.js"><strong>Testing DDD</strong> <br /></a>
+                            <small>@Eric-Yimmm</small>{" "}
                             <span class="tag is-success is-normal">Rating</span>{" "}
                             <small>100%</small>
                             <br />

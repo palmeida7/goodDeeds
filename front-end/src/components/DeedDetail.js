@@ -1,36 +1,25 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import MiniProfile from "../components/MiniProfile";
+import Moment from "react-moment";
+import 'moment-timezone';
+
+
 export default function DeedDetail(props) {
-	// const [deedLocation, setDeedLocation] = useState(deedData.location)
 	const [detailData, setDetailData] = useState({});
 
-	// useEffect(() => {
-    //     if (props.match.params.id) {
-    //         try {
-    //             fetch(`http://localhost:5000/deed/${props.match.params.id}`)
-	// 				.then(res => res.json())
-	// 				.then(data => console.log(data))
-	// 				.then(data => setDetailData(data))
-	// 				.then(data => console.log(detailData))
-    //         } catch (err) {
-    //             console.error(err.message);
-    //         }
-	// 	}
-	// }, []);
-	
 	async function getDeedsId() {
 		const resp = await fetch(`http://localhost:5000/deed/${props.match.params.id}`)
 		const deeds = await resp.json();
 		console.log(deeds);
 		setDetailData(deeds);
 	}
-	useEffect(()=>{
+
+	useEffect(() => {
 		getDeedsId()
 	}, []);
 
 	return (
 		<section>
-			{/* <div>{props.match.params.id}</div> */}
 			<div class="container">
 				<section class="section">
 					<div class="container">
@@ -54,6 +43,7 @@ export default function DeedDetail(props) {
 											<img
 												class="is-rounded"
 												src={window.sessionStorage.getItem("picture")}
+												alt="user's avatar"
 											/>
 										</p>
 									</figure>
@@ -62,7 +52,7 @@ export default function DeedDetail(props) {
 										<div class="content is-pulled-right">
 											<p>
 												<strong>Requester</strong> <br />
-												<small>@request</small>{" "}
+												<small>@{detailData.username}</small>{" "}
 												<span class="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />
@@ -84,19 +74,19 @@ export default function DeedDetail(props) {
 								<div class="level-item has-text-centered">
 									<div>
 										<p class="heading">Date Created</p>
-										<p class="title">{detailData.date_created}</p>
+										<p class="title"><Moment format="MM/DD/YYYY">{detailData.date_created}</Moment></p>
 									</div>
 								</div>
 								<div class="level-item has-text-centered">
 									<div>
-										<p class="heading">Date</p>
-										<p class="title">{detailData.date_todo}</p>
+										<p class="heading">Date Requested</p>
+										<p class="title"><Moment format="MM/DD/YYYY">{detailData.date_todo}</Moment></p>
 									</div>
 								</div>
 								<div class="level-item has-text-centered">
 									<div>
-										<p class="heading">Start Time</p>
-										<p class="title">1:30 pm</p>
+										<p class="heading">Requested Time</p>
+										<p class="title"><Moment format="hh:mm A">{detailData.date_todo}</Moment></p>
 									</div>
 								</div>
 								{/* <div class="level-item has-text-centered">
@@ -119,8 +109,8 @@ export default function DeedDetail(props) {
 									</section>
 								</div>
 							</div>
-                        </section>
-                        {/* Assigned & Backup GoodDeed'r */}
+						</section>
+						{/* Assigned & Backup GoodDeed'r */}
 						<section class="section">
 							<div class="container">
 								<div class="columns">

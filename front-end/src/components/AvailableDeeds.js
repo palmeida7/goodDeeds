@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
-// import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
+import Moment from "react-moment";
+import 'moment-timezone';
+
 export default function AvailablDeeds() {
 	const [deeds, setDeeds] = useState([]);
-	// const [learnMore, setLearnMore] = useState(false);
 
 	async function getDeeds() {
-		const response = await fetch("http://localhost:5000/deeds/status");
+		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
+			status: 'open'
+		}));
 		const deedArray = await response.json();
-		console.log(deedArray);
 		setDeeds(deedArray);
 	}
 	useEffect(() => {
 		getDeeds();
 	}, []);
 
-	// const onClick = () => {
-	// 	setLearnMore(true);
-	// };
-
-	// if (learnMore) {
-	// 	return <Redirect to={"/details/:id"} />
-	// };
-
 	const matchTagImg = (deed) => {
 		if (deed.category === "Black Lives Matter") {
 			return "https://i.imgur.com/ROvf215.png"
 		} else if (deed.category === "Senior") {
 			return "https://i.imgur.com/TOHpmYW.png"
-		} else if (deed.category === "LBGQT") {
+		} else if (deed.category === "LBGTQ") {
 			return "https://i.imgur.com/AAgWHo0.png"
 		} else {
 			return "https://i.imgur.com/YU649NJ.png"
@@ -40,7 +34,7 @@ export default function AvailablDeeds() {
 			return "tag is-black"
 		} else if (deed.category === "Senior") {
 			return "tag is-warning"
-		} else if (deed.category === "LBGQT") {
+		} else if (deed.category === "LBGTQ") {
 			return "tag is-primary"
 		} else {
 			return "tag is-red"
@@ -56,9 +50,9 @@ export default function AvailablDeeds() {
 						<button className="button is-dark is-pulled-right">
 							Completed goodDeeds
 						</button>
-						<button className="button is-warning is-pulled-right mr-3">
+						<Link to={'/upcoming'}><a className="button is-warning is-pulled-right mr-3">
 							Upcoming goodDeeds
-						</button>
+						</a></Link>
 						<div>
 							<span className="tag is-light mt-4">{window.sessionStorage.getItem("location")}</span>
 						</div>
@@ -75,6 +69,7 @@ export default function AvailablDeeds() {
 											<img
 												className="is-rounded"
 												src={window.sessionStorage.getItem("picture")}
+												alt="user's avatar"
 											/>
 										</p>
 									</figure>
@@ -105,7 +100,7 @@ export default function AvailablDeeds() {
 									<img
 										// category card image
 										src={matchTagImg(deed)}
-										alt="Placeholder image"
+										alt="banner"
 									/>
 								</figure>
 							</div>
@@ -144,12 +139,12 @@ export default function AvailablDeeds() {
 									{/* deed date */}
 									<label className="label mb-0">Deed Request</label>
 									<time dateTime="2016-1-1">
-										{deed.date_todo}
+										<Moment format="MM/DD/YYYY hh:mm A">{deed.date_todo}</Moment>
 									</time>
 									<br />
 									{/* learn more */}
-									<pre>{JSON.stringify(deed, null, 2) }</pre>
-									<Link className="button is-info mt-3 " to={`/details/${deed.deeds_id}`} >Learn More</Link>
+									<pre>{JSON.stringify(deed, null, 2)}</pre>
+									<Link className="button is-info mt-3 " to={`/details/${deed.id}`} >Learn More</Link>
 									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
 										Learn More
 									</button> */}
