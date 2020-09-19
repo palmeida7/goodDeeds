@@ -50,7 +50,7 @@ app.get("/user_profile", async (req, res) => {
 app.get("/user_profile/:email", async (req, res) => {
     try {
         const { email } = req.params
-        const userProfile = await pool.query("SELECT * FROM users WHERE email = $1 ", [email]);
+        const userProfile = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
         res.json(userProfile.rows[0])
     } catch (err) {
         console.error(err.message)
@@ -61,50 +61,72 @@ app.get("/user_profile/:email", async (req, res) => {
 app.put("/update_user", async (req, res) => {
     try {
         // const {id} = req.params;
-        console.log(req.body, "************");
         const { name, userName, location, phone, shortBio, email } = req.body;
         const editUser = await pool.query(`
             UPDATE users SET (name, username, location, phone, short_bio, email) = ($1, $2, $3, $4, $5, $6) 
-            WHERE email = $6`,
+            WHERE email = $6 returning *`,
             [name, userName, location, phone, shortBio, email]);
-        res.json("Profile updated.");
+        res.json(editUser.rows[0]);
+
     } catch (err) {
         console.error(err.message);
     }
 });
 
-
 // all deeds
 app.get("/deeds/", async (req, res) => {
     try {
         // filter status conditions
-        const {status} = req.query;
+        const { status, assignerId } = req.query;
+        console.log(assignerId);
         const allDeeds = await pool.query(`
             SELECT 
                 d.id, d.category, d.title, d.description, d.location, d.date_created, 
                 d.date_todo, d.status, u.name, u.username, u.picture, u.email 
             FROM deeds AS d 
             JOIN users AS u 
-            ON d.id=u.id
-            AND d.status='${status}';
-            `);
+            ON d.assigner_id=u.id
+            AND d.status='${status}' 
+            AND d.assigner_id!=${assignerId}
+            ;`);
         res.send(allDeeds.rows);
     } catch (err) {
         console.log(err.message);
     }
 });
 
-//////////////////
-//PJ a deed
+// SPECIFIC deed
 app.get("/deed/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deed = await pool.query("SELECT * FROM deeds WHERE id =$1", [id])
+        const deed = await pool.query(`
+        SELECT
+            d.id, d.category, d.title, d.description, d.location, d.date_created, 
+            d.date_todo, d.status, d.assigner_id, u.name, u.username, u.picture, u.email 
+        FROM deeds AS d 
+        JOIN users AS u 
+        ON d.assigner_id=u.id 
+        WHERE d.id =$1`, [id])
         res.json(deed.rows[0]);
     } catch (err) {
         console.error(err.message)
     }
 });
+// m-t-m relationship
+// app.get("/deed/:id", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const deed = await pool.query(`
+//         SELECT d.*
+//         FROM deeds AS d
+//         JOIN users_deeds ud ON d.id = ud.deeds_id
+//         JOIN users u ON u.id = ud.assigner_id
+//         WHERE ud.id =$1`, [id])
+//         res.json(deed.rows[0]);
+//     } catch (err) {
+//         console.error(err.message)
+//     }
+// });
 
 
 // create a deed
@@ -119,7 +141,6 @@ app.post("/create_deed", async (req, res) => {
                 returning *`,
             [title, description, category, deedLocation, status, assignerId, dateTodo, dateCreated]
         );
-        console.log(req.body);
         res.json(newDeed.rows[0]);
     } catch (err) {
         console.error(err.message);
@@ -127,16 +148,52 @@ app.post("/create_deed", async (req, res) => {
 })
 
 //edit a deed
+// app.put("/edit_deed", async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const { title, description, category, location, status } = req.body;
+//         const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) WHERE id = $6", [title, description, category, location, status, id]);
+//         res.json("Deed was updated.");
+//     } catch (err) {
+//         console.error(err.message);
+//     }
+// })
+
+// edit a deed
 app.put("/edit_deed", async (req, res) => {
     try {
-        const { id } = req.params;
-        const { title, description, category, location, status } = req.body;
-        const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) WHERE id = $6", [title, description, category, location, status, id]);
+        const { title, description, category, location, status, id } = req.body;
+        const editDeed = await pool.query(`
+            UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) 
+            WHERE id = $6`,
+            [title, description, category, location, status, id]);
         res.json("Deed was updated.");
     } catch (err) {
         console.error(err.message);
     }
 })
+
+// edit status
+app.put("/change_status", async (req, res) => {
+    try {
+        const { status, id, userId } = req.body;
+        const editStatus = await pool.query(`
+            UPDATE deeds SET status = $1
+            WHERE id = $2`,
+            [status, id]);
+        const assignedUser = await pool.query(`
+            INSERT INTO users_deeds (assigned_id, deeds_id)
+            VALUES ($1, $2)
+            ON CONFLICT (assigned_id, deeds_id) 
+            DO NOTHING;`,
+            [userId, id]);
+        res.json("Accepted.");
+
+    } catch (err) {
+        console.error(err.message);
+    }
+})
+
 
 //deed shown based on status
 // app.get("/deeds/status", async (req, res) => {

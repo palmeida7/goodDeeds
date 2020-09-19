@@ -17,7 +17,8 @@ export default function Navbar() {
                             height="auto"
                         />
                     </a>
-                    <a
+                    <p
+                        
                         onClick={() => {
                             setisActive(!isActive);
                         }}
@@ -30,7 +31,7 @@ export default function Navbar() {
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
-                    </a>
+                    </p>
                 </div>
                 <div
                     id="navbarBasicExample"
@@ -38,31 +39,28 @@ export default function Navbar() {
                 >
                     <div className="navbar-end">
                         <div className="navbar-item">
-                            <Link to={"/private_profile"} >
-                                <a className="navbar-item">Edit Profile</a>
+                            <Link to={"/private_profile"}
+                                className="navbar-item">Edit Profile
                             </Link>
-                            <Link to={"/public_profile"} >
-                                <a className="navbar-item">Profile</a>
+                            <Link to={"/public_profile"}
+                                className="navbar-item">Profile
                             </Link>
-                            <Link to={"/explore"}>
-                                <a className="navbar-item">Deed</a>
+                            <Link to={"/explore"}
+                                className="navbar-item">Deed
                             </Link>
-                            <Link to={"/deed_assigned"}>
-                            <a className="navbar-item">Upcoming Deeds</a>
+                            <Link to={"/deed_assigned"}
+                            className="navbar-item">Upcoming Deeds
                             </Link>
-                            <Link to={"/create_deed"}>
-                            <a className="navbar-item">Create Deed+</a>
+                            <Link to={"/create_deed"}
+                                className="navbar-item">Create Deed+
                             </Link>
-                            <Link to={"/message"}>
-                                <a className="navbar-item">Chat</a>
+                            <Link to={"/message"}
+                                className="navbar-item">Chat
                             </Link>
-                            <Link to={"/about"}>
-                                <a className="navbar-item">About</a>
+                            <Link to={"/about"}
+                                className="navbar-item">About
                             </Link>
-                            {/* <div class="buttons"> */}
-                            {/* <a class="button is-light">{<LogoutButton />}</a> */}
                             <LogoutButton />
-                            {/* </div> */}
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 const PublicProfile = ({ userInfo }) => {
     const [_userData, setUserData] = useState(userInfo);
     const { user } = useAuth0();
-    console.log(user);
 
 
 

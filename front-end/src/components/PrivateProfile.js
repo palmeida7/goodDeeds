@@ -36,7 +36,6 @@ const PrivateProfile = (props) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        console.log("Profile updated.")
         try {
             const body = { name, userName, location, phone, shortBio, email };
             const response = await fetch(`http://localhost:5000/update_user`, {
@@ -45,7 +44,15 @@ const PrivateProfile = (props) => {
                 body: JSON.stringify(body)
             });
             let results = await response.json();
-            console.log(results);
+            window.sessionStorage.clear();
+            window.sessionStorage.setItem("username", results.username)
+            window.sessionStorage.setItem("location", results.location)
+            window.sessionStorage.setItem("phone", results.phone)
+            window.sessionStorage.setItem("short_bio", results.short_bio)
+            window.sessionStorage.setItem("name", results.name)
+            window.sessionStorage.setItem("email", results.email)
+            window.sessionStorage.setItem("picture", results.picture)
+            window.sessionStorage.setItem("users_id", results.id)
             setUpdated(true);
         } catch (err) {
             console.error(err.message);

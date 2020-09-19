@@ -22,7 +22,7 @@ const SignIn = () => {
                 fetch(`http://localhost:5000/user_profile/${user.email}`)
                     .then(res => res.json())
                     .then((data) => {
-                        sessionStorage.clear();
+                        window.sessionStorage.clear();
                         window.sessionStorage.setItem("username", data.username)
                         window.sessionStorage.setItem("location", data.location)
                         window.sessionStorage.setItem("phone", data.phone)
