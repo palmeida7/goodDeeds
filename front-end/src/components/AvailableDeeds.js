@@ -1,64 +1,51 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
-export default function Available_GoodDeeds(props) {
+// import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
+export default function AvailablDeeds() {
 	const [deeds, setDeeds] = useState([]);
-	const [learnMore, setLearnMore] = useState(false);
-	const deedsData = props.deedsData || {};
-	// const [interestArea, setInterestArea] = useState(deedsData.category);
-	let bannerImg = "";
-	let tagColor = "";
+	// const [learnMore, setLearnMore] = useState(false);
 
-	// useEffect(() => {
-	// 	if (!props.deedsData) {
-	// 	try {
-	// 		fetch(`http://localhost:5000/deeds/status`)
-	// 			.then(res => res.json())
-	// 			.then(data => console.log(data))
-	// 			.then(data => setDeeds(data))
-	// 			.then(data => setInterestArea(data.category))
-	// 	} catch (err) {
-	// 		console.error(err.message);
-	// 	}
-	// 	}
-	// })
 	async function getDeeds() {
-		if (!props.deedsData) {
-			const response = await fetch("http://localhost:5000/deeds/status");
-			const deedArray = await response.json();
-			console.log(deedArray);
-			setDeeds(deedArray);
-			// setInterestArea(deedArray.category);
-		}
+		const response = await fetch("http://localhost:5000/deeds/status");
+		const deedArray = await response.json();
+		console.log(deedArray);
+		setDeeds(deedArray);
 	}
 	useEffect(() => {
 		getDeeds();
 	}, []);
 
-	const onClick = () => {
-		setLearnMore(true);
-	};
+	// const onClick = () => {
+	// 	setLearnMore(true);
+	// };
 
-	if (learnMore) {
-		return <Redirect to={"/details"} />
-	};
+	// if (learnMore) {
+	// 	return <Redirect to={"/details/:id"} />
+	// };
 
-	if (deeds.category === "Black Lives Matter") {
-		bannerImg = "https://i.imgur.com/ROvf215.png"
-	} else if (deeds.category === "Senior") {
-		bannerImg = "https://i.imgur.com/TOHpmYW.png"
-	} else if (deeds.category === "LBGTQ") {
-		bannerImg = "https://i.imgur.com/AAgWHo0.png"
-	} else {
-		bannerImg = "https://i.imgur.com/YU649NJ.png"
+	const matchTagImg = (deed) => {
+		if (deed.category === "Black Lives Matter") {
+			return "https://i.imgur.com/ROvf215.png"
+		} else if (deed.category === "Senior") {
+			return "https://i.imgur.com/TOHpmYW.png"
+		} else if (deed.category === "LBGQT") {
+			return "https://i.imgur.com/AAgWHo0.png"
+		} else {
+			return "https://i.imgur.com/YU649NJ.png"
+		}
 	}
 
-	// blm
-	// "tag is-black"
-	// senior
-	// "tag is-warning"
-	// lbgtq
-	// "tag is-primary"
-
+	const matchTagColor = (deed) => {
+		if (deed.category === "Black Lives Matter") {
+			return "tag is-black"
+		} else if (deed.category === "Senior") {
+			return "tag is-warning"
+		} else if (deed.category === "LBGQT") {
+			return "tag is-primary"
+		} else {
+			return "tag is-red"
+		}
+	}
 
 	return (
 		<section>
@@ -73,7 +60,7 @@ export default function Available_GoodDeeds(props) {
 							Upcoming goodDeeds
 						</button>
 						<div>
-							<span className="tag is-light mt-4">Atlanta, GA</span>
+							<span className="tag is-light mt-4">{window.sessionStorage.getItem("location")}</span>
 						</div>
 						{/* screen title */}
 						<h1 className="title is-size-1">Available goodDeeds</h1>
@@ -109,70 +96,67 @@ export default function Available_GoodDeeds(props) {
 					</div>
 				</section>
 				{/* goodDeed Cards */}
-				<div className="container" >
-					<div className="columns ">
-						<div className="column is-one-quarter">
-							{/* card #1 start */}
-							{deeds.map((deed, idx) => (
-								<div className="card" key={idx}>
-									<div className="card-image">
-										<figure className="image is-4by3">
+				<div className="column is-one-quarter">
+					{/* card #1 start */}
+					{deeds.map((deed, idx) => (
+						<div className="card mb-3" key={idx}>
+							<div className="card-image">
+								<figure className="image is-4by3">
+									<img
+										// category card image
+										src={matchTagImg(deed)}
+										alt="Placeholder image"
+									/>
+								</figure>
+							</div>
+							<div className="card-content">
+								<div className="media">
+									<div className="media-left">
+										{/* image avatar */}
+										<figure className="image is-48x48">
 											<img
-												// black lives matter image
-												src={"https://i.imgur.com/ROvf215.png"}
+												className="is-rounded"
+												src={deed.picture}
 												alt="Placeholder image"
 											/>
 										</figure>
 									</div>
-									<div className="card-content">
-										<div className="media">
-											<div className="media-left">
-												{/* image avatar */}
-												<figure className="image is-48x48">
-													<img
-														className="is-rounded"
-														src={deed.picture}
-														alt="Placeholder image"
-													/>
-												</figure>
-											</div>
-											{/* user info */}
-											<div className="media-content">
-												<p className="title is-4">{deed.name}</p>
-												<p className="subtitle is-6">@{deed.username}</p>
-											</div>
-										</div>
-										{/* interest tags areas */}
-										<label className="label">Community</label>
-										<div className="tags has-addons">
-											<span className={tagColor}>{deed.category}</span>
-										</div>
-										{/* location */}
-										<div className="content">
-											<label className="label mb-0">Location</label>
-											{deed.location}
-											<br />
-											{/* summary */}
-											<label className="label mb-0">Deed Summary</label>
-											{deed.description}
-											<br />
-											{/* deed date */}
-											<label className="label mb-0">Deed Request</label>
-											<time dateTime="2016-1-1">
-												{deed.date_todo}
-											</time>
-											<br />
-											{/* learn more */}
-											<button className="button is-info mt-3 " onClick={onClick} >Learn More</button>
-											<button className="button is-black mt-3 is-pulled-right is-hidden">
-												Learn More
-									</button>
-										</div>
+									{/* user info */}
+									<div className="media-content">
+										<p className="title is-4">{deed.name}</p>
+										<p className="subtitle is-6">@{deed.username}</p>
 									</div>
 								</div>
-							))}
+								{/* interest tags areas */}
+								<label className="label">Community</label>
+								<div className="tags has-addons">
+									<span className={matchTagColor(deed)}>{deed.category}</span>
+								</div>
+								{/* location */}
+								<div className="content">
+									<label className="label mb-0">Location</label>
+									{deed.location}
+									<br />
+									{/* summary */}
+									<label className="label mb-0">Deed Summary</label>
+									{deed.description}
+									<br />
+									{/* deed date */}
+									<label className="label mb-0">Deed Request</label>
+									<time dateTime="2016-1-1">
+										{deed.date_todo}
+									</time>
+									<br />
+									{/* learn more */}
+									<pre>{JSON.stringify(deed, null, 2) }</pre>
+									<Link className="button is-info mt-3 " to={`/details/${deed.deeds_id}`} >Learn More</Link>
+									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
+										Learn More
+									</button> */}
+								</div>
+							</div>
 						</div>
-					</div>
+					))}
 				</div>
 			</div>
 		</section>

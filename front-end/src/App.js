@@ -42,22 +42,14 @@ const App = () => {
   return (
   
     <Router>
-      {/* <Route path="/" exact component={Login} />
-      <Route path="/register" exact component={Register} />
-      <Route path="/explore" exact component={Explore} />
+      {/* 
       <Route path="/upcoming" exact component={Upcoming} />
       <Route path="/completed" exact component={Completed} />
       <Route path="/ratings" exact component={Ratings} />
       <Route path="/signup_feed" exact component={SignUpFeed} />
       <Route path="/assigned" exact component={Assigned} />
-      <Route path="/created_list" exact component={CreatedList} />
       <Route path="/edit_deed" exact component={EditDeed} /> */}
-      {/* <div>
-        <Link to={"/explore"}> Explore </Link>
-        <Link to={"/join"}> Messages </Link>
-        <Link to={"/logout"}> Log Out </Link>
 
-      </div> */}
       <Navbar />
       {isAuthenticated &&
         <>
@@ -69,7 +61,7 @@ const App = () => {
           <Route path="/explore" exact component={AvailableDeeds} />
           <Route path="/create_deed" exact component={CreateDeed} />
           <Route path="/deed_assigned" exact component={DeedAssigned} />
-          <Route path="/details" exact component={DeedDetail} />
+          <Route path="/details/:id" exact component={DeedDetail} />
           <Route path="/message" exact component={Join} />
           <Route path="/chat" component={Chat} />
           <Route path="/about" component={AboutUs} />

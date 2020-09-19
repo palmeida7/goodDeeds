@@ -1,8 +1,36 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import MiniProfile from "../components/MiniProfile";
-export default function Deed_Detail() {
+export default function DeedDetail(props) {
+	// const [deedLocation, setDeedLocation] = useState(deedData.location)
+	const [detailData, setDetailData] = useState({});
+
+	// useEffect(() => {
+    //     if (props.match.params.id) {
+    //         try {
+    //             fetch(`http://localhost:5000/deed/${props.match.params.id}`)
+	// 				.then(res => res.json())
+	// 				.then(data => console.log(data))
+	// 				.then(data => setDetailData(data))
+	// 				.then(data => console.log(detailData))
+    //         } catch (err) {
+    //             console.error(err.message);
+    //         }
+	// 	}
+	// }, []);
+	
+	async function getDeedsId() {
+		const resp = await fetch(`http://localhost:5000/deed/${props.match.params.id}`)
+		const deeds = await resp.json();
+		console.log(deeds);
+		setDetailData(deeds);
+	}
+	useEffect(()=>{
+		getDeedsId()
+	}, []);
+
 	return (
 		<section>
+			{/* <div>{props.match.params.id}</div> */}
 			<div class="container">
 				<section class="section">
 					<div class="container">
@@ -11,7 +39,7 @@ export default function Deed_Detail() {
 							Available goodDeed
 						</button>
 						<div>
-							<span class="tag is-light">Atlanta, GA</span>
+							<span class="tag is-light">{detailData.location}</span>
 						</div>
 						{/* screen title */}
 						<h1 class="title is-size-1">goodDeed Detail</h1>
@@ -25,16 +53,16 @@ export default function Deed_Detail() {
 										<p class="image is-48x48">
 											<img
 												class="is-rounded"
-												src="https://bulma.io/images/placeholders/128x128.png"
+												src={window.sessionStorage.getItem("picture")}
 											/>
 										</p>
 									</figure>
-									{/* user info */}
+									{/* requester's info */}
 									<div class="media-content">
 										<div class="content is-pulled-right">
 											<p>
-												<strong>John Smith</strong> <br />
-												<small>@johnsmith</small>{" "}
+												<strong>Requester</strong> <br />
+												<small>@request</small>{" "}
 												<span class="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />
@@ -56,13 +84,13 @@ export default function Deed_Detail() {
 								<div class="level-item has-text-centered">
 									<div>
 										<p class="heading">Date Created</p>
-										<p class="title">Sep 29, 2020</p>
+										<p class="title">{detailData.date_created}</p>
 									</div>
 								</div>
 								<div class="level-item has-text-centered">
 									<div>
 										<p class="heading">Date</p>
-										<p class="title">Oct 5, 2020</p>
+										<p class="title">{detailData.date_todo}</p>
 									</div>
 								</div>
 								<div class="level-item has-text-centered">
@@ -71,12 +99,12 @@ export default function Deed_Detail() {
 										<p class="title">1:30 pm</p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered">
+								{/* <div class="level-item has-text-centered">
 									<div>
 										<p class="heading">End Time</p>
 										<p class="title">2:30pm</p>
 									</div>
-								</div>
+								</div> */}
 							</nav>
 						</section>
 						{/* Deed Summary & Things You Know Section */}
@@ -86,15 +114,7 @@ export default function Deed_Detail() {
 									<section>
 										<h1 class="title">Summary</h1>
 										<h2 class="subtitle">
-											This portion is a summary of the goodDeed being viewed.
-										</h2>
-									</section>
-								</div>
-								<div class="column">
-									<section>
-										<h1 class="title">Things You Should Know</h1>
-										<h2 class="subtitle">
-											This portion is a summary of the goodDeed being viewed.
+											{detailData.description}
 										</h2>
 									</section>
 								</div>
@@ -108,10 +128,10 @@ export default function Deed_Detail() {
 										<h1 class="title mt-6">Assigned goodDeed'r</h1>
 										<MiniProfile />
 									</div>
-									<div class="column">
+									{/* <div class="column">
 										<h1 class="title mt-6">Backup goodDeed'r</h1>
-										{/* <MiniProfile /> */}
-									</div>
+										<MiniProfile />
+									</div> */}
 								</div>
 							</div>
 						</section>
