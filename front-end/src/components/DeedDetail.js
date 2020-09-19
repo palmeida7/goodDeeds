@@ -52,7 +52,7 @@ export default function DeedDetail(props) {
 										<div class="content is-pulled-right">
 											<p>
 												<strong>Requester</strong> <br />
-												<small>@request</small>{" "}
+												<small>@{detailData.username}</small>{" "}
 												<span class="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />

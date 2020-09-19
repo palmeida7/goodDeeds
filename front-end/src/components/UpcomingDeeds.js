@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-export default function Completed_GoodDeeds() {
+export default function UpcomingDeeds() {
 	return (
 		<section>
 			<div class="container">
@@ -8,8 +8,8 @@ export default function Completed_GoodDeeds() {
 					<div class="container">
 						{/* button : save & continue */}
 
-						<button class="button is-warning is-pulled-right">
-							Upcoming goodDeeds
+						<button class="button is-dark is-pulled-right">
+							Completed goodDeeds
 						</button>
 						<button class="button is-success is-pulled-right mr-3">
 							Available goodDeeds
@@ -20,7 +20,7 @@ export default function Completed_GoodDeeds() {
 
 						{/* screen title */}
 
-						<h1 class="title is-size-1">Completed goodDeeds</h1>
+						<h1 class="title is-size-1">Upcoming goodDeeds</h1>
 					</div>
 					<div>
 						<section>
@@ -118,8 +118,8 @@ export default function Completed_GoodDeeds() {
 									<br />
 									{/* learn more */}
 									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right">
-                                    Rate Here
+									<button class="button is-black mt-3 is-pulled-right is-hidden">
+										Learn More
 									</button>
 								</div>
 							</div>
@@ -184,8 +184,8 @@ export default function Completed_GoodDeeds() {
 									<br />
 									{/* learn more */}
 									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right">
-                                    Rate Here
+									<button class="button is-black mt-3 is-pulled-right is-hidden">
+										Learn More
 									</button>
 								</div>
 							</div>
@@ -250,14 +250,79 @@ export default function Completed_GoodDeeds() {
 									<br />
 									{/* learn more */}
 									<button class="button is-info mt-3 ">Learn More</button>
-									<button class="button is-black mt-3 is-pulled-right">
-										Rate Here
+									<button class="button is-black mt-3 is-pulled-right is-hidden">
+										Learn More
 									</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+					<div class="column">
+						{/* card #4 start */}
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-4by3">
+									<img
+										src="https://i.imgur.com/ROvf215.png"
+										alt="Placeholder image"
+									/>
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="media">
+									<div class="media-left">
+										{/* image avatar */}
+
+										<figure class="image is-48x48">
+											<img
+												class="is-rounded"
+												src="https://bulma.io/images/placeholders/96x96.png"
+												alt="Placeholder image"
+											/>
+										</figure>
+									</div>
+
+									{/* user info */}
+
+									<div class="media-content">
+										<p class="title is-4">John Smith</p>
+										<p class="subtitle is-6">@johnsmith</p>
+									</div>
+								</div>
+
+								{/* interest tags area */}
+
+								<label class="label">Community</label>
+								<div class="tags has-addons">
+									<span class="tag is-black">Black Lives Matter</span>
+								</div>
+
+								{/* location */}
+
+								<div class="content">
+									<label class="label mb-0">Location</label>
+									Brookhaven, GA
+									<br />
+									{/* summary */}
+									<label class="label mb-0">Deed Summary</label>
+									This section is designed for a brief summary of the goodDeeds.
+									All goodDeeds will have 2-3 sentence summaries.
+									<br />
+									{/* deed date */}
+									<label class="label mb-0">Deed Date</label>
+									<time datetime="2016-1-1">
+										8:30 AM - 9:30 AM - Sep 28, 2020
+									</time>
+									<br />
+									{/* learn more */}
+									<button class="button is-info mt-3 ">Learn More</button>
+									<button class="button is-black mt-3 is-pulled-right is-hidden">
+										Learn More
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>

@@ -24,7 +24,11 @@ app.use(express.json());
 app.post("/add_users", async (req, res) => {
     try {
         const { name, username, location, email, phone, short_bio, picture } = req.body;
-        const newUser = await pool.query("INSERT INTO users (name, username, location, email, phone, short_bio, picture) VALUES ($1,$2,$3,$4, $5,$6, $7) returning *", [name, username, location, email, phone, short_bio, picture]);
+        const newUser = await pool.query(`
+            INSERT INTO users (name, username, location, email, phone, short_bio, picture) 
+            VALUES ($1,$2,$3,$4, $5,$6, $7) returning *`,
+            [name, username, location, email, phone, short_bio, picture]
+        );
         res.json(newUser.rows[0]);
     } catch (err) {
         res.json({ error: 'User already exists.' })
@@ -59,8 +63,9 @@ app.put("/update_user", async (req, res) => {
         // const {id} = req.params;
         console.log(req.body, "************");
         const { name, userName, location, phone, shortBio, email } = req.body;
-        const editUser = await pool.query(
-            "UPDATE users SET (name, username, location, phone, short_bio, email) = ($1, $2, $3, $4, $5, $6) WHERE email = $6",
+        const editUser = await pool.query(`
+            UPDATE users SET (name, username, location, phone, short_bio, email) = ($1, $2, $3, $4, $5, $6) 
+            WHERE email = $6`,
             [name, userName, location, phone, shortBio, email]);
         res.json("Profile updated.");
     } catch (err) {
@@ -70,15 +75,18 @@ app.put("/update_user", async (req, res) => {
 
 
 // all deeds
-app.get("/deeds", async (req, res) => {
+app.get("/deeds/", async (req, res) => {
     try {
         // filter status conditions
+        const {status} = req.query;
         const allDeeds = await pool.query(`
             SELECT 
                 d.id, d.category, d.title, d.description, d.location, d.date_created, 
                 d.date_todo, d.status, u.name, u.username, u.picture, u.email 
             FROM deeds AS d 
-            JOIN users AS u ON d.id=u.id;
+            JOIN users AS u 
+            ON d.id=u.id
+            AND d.status='${status}';
             `);
         res.send(allDeeds.rows);
     } catch (err) {
@@ -106,11 +114,11 @@ app.post("/create_deed", async (req, res) => {
         const newDeed = await pool.query(`
             INSERT INTO deeds (
                 title, description, category, location, status, 
-                assigner_id, date_todo, date_created
-                ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
-                returning *`, 
-                [title, description, category, deedLocation, status, assignerId, dateTodo, dateCreated]
-                );
+                assigner_id, date_todo, date_created) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+                returning *`,
+            [title, description, category, deedLocation, status, assignerId, dateTodo, dateCreated]
+        );
         console.log(req.body);
         res.json(newDeed.rows[0]);
     } catch (err) {
@@ -133,7 +141,7 @@ app.put("/edit_deed", async (req, res) => {
 //deed shown based on status
 // app.get("/deeds/status", async (req, res) => {
 //     try {
-        
+
 //         const openDeeds = await pool.query("SELECT d.deeds_id, d.category, d.title, d.description, d.location, d.date_created, d.date_todo, d.status, u.name, u.username, u.picture, u.email FROM deeds AS d JOIN users AS u ON d.users_id=u.users_id AND d.status='open';");
 //         res.send(openDeeds.rows);
 //     } catch (err) {

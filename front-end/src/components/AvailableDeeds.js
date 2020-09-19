@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Moment from "react-moment";
+import 'moment-timezone';
 
 export default function AvailablDeeds() {
 	const [deeds, setDeeds] = useState([]);
 
 	async function getDeeds() {
-		const response = await fetch("http://localhost:5000/deeds");
+		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
+			status: 'open'
+		}));
 		const deedArray = await response.json();
 		setDeeds(deedArray);
 	}
@@ -46,9 +50,9 @@ export default function AvailablDeeds() {
 						<button className="button is-dark is-pulled-right">
 							Completed goodDeeds
 						</button>
-						<button className="button is-warning is-pulled-right mr-3">
+						<Link to={'/upcoming'}><a className="button is-warning is-pulled-right mr-3">
 							Upcoming goodDeeds
-						</button>
+						</a></Link>
 						<div>
 							<span className="tag is-light mt-4">{window.sessionStorage.getItem("location")}</span>
 						</div>
@@ -135,11 +139,11 @@ export default function AvailablDeeds() {
 									{/* deed date */}
 									<label className="label mb-0">Deed Request</label>
 									<time dateTime="2016-1-1">
-										{deed.date_todo}
+										<Moment format="MM/DD/YYYY hh:mm A">{deed.date_todo}</Moment>
 									</time>
 									<br />
 									{/* learn more */}
-									<pre>{JSON.stringify(deed, null, 2) }</pre>
+									<pre>{JSON.stringify(deed, null, 2)}</pre>
 									<Link className="button is-info mt-3 " to={`/details/${deed.id}`} >Learn More</Link>
 									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
 										Learn More
