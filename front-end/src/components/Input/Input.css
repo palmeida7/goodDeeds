@@ -34,6 +34,7 @@ input:focus, textarea:focus, select:focus{
     text-decoration: none;
     background: #ed6f2f;
     padding: 20px;
+    margin-left: 20%;
     display: inline-block;
     border: none;
     width: 15%;
@@ -44,9 +45,10 @@ input:focus, textarea:focus, select:focus{
     border: none;
     border-radius: 0;
     padding: 1%;
-    width: 80%;
+    width: 50%;
     font-size: 1.2em;
     margin-right: 5%;
+    margin-left:5%
 }
 
 
