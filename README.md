@@ -3,7 +3,7 @@
 ## Overview: 
 goodDeeds is a virtual marketplace where volunteers and organizations, or individuals, may meet for the purpose of collaborating to accomplish acts of kindness. These acts may be as simple as spending time with members of the Senior Community, or just as grand such as small business consulations for Black-Owned businesses, or organzing to demonstrate advocacy for LGBTQ rights. The platform will promote sharing information through emails, meetings through a real time chat or organizing a group meet-up. No matter how small or grand the topic, goodDeeds provides a safe environment for collaborators, and those with needs, to link up and accomplish good deeds together. 
 
-## The Team:
+## The Team: This Project was created and completed remotely
 ### Eric Yim: https://github.com/tknyim
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
 
