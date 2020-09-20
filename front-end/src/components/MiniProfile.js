@@ -1,20 +1,23 @@
 import React from "react";
-export default function MiniProfile({usersInfo}) {
+import { Link } from "react-router-dom";
+
+export default function MiniProfile({ usersInfo }) {
     return (
         <div className="container">
             <article className="media">
-                <figure className="media-left">
-                    <p className="image is-48x48">
+                <Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+                    <figure className="image is-48x48">
                         <img
                             className="is-rounded"
-                            src={usersInfo.picture}
+                            src={window.sessionStorage.getItem('picture')}
+                            alt="owners profile"
                         />
-                    </p>
-                </figure>
+                    </figure>
+                </Link>
                 <div className="media-content">
                     <div className="content">
                         <p>
-                            <a href="../screens/Public_Profile.js"><strong>{usersInfo.name}</strong> <br /></a>
+                            <span href="../screens/Public_Profile.js"><strong>{usersInfo.name}</strong> <br /></span>
                             <small>@{usersInfo.username}</small>{" "}
                             <span className="tag is-success is-normal">Rating</span>{" "}
                             <small>100%</small>

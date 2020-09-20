@@ -19,6 +19,7 @@ import AvailableDeeds from "./components/AvailableDeeds";
 import AboutUs from "./components/AboutUs";
 import UpcomingDeeds from "./components/UpcomingDeeds";
 import DeedsList from "./components/DeedsList";
+import CompletedDeeds from "./components/CompletedDeeds";
 
 
 
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/private_profile" exact component={PrivateProfile} />
           <Route path="/explore" exact component={AvailableDeeds} />
           <Route path="/upcoming" exact component={UpcomingDeeds} />
+          <Route path="/completed" exact component={CompletedDeeds} />
           <Route path="/create_deed" exact component={CreateDeed} />
           <Route path="/deed_assigned/:id" exact component={DeedAssigned} />
           <Route path="/details/:id" exact component={DeedDetail} />

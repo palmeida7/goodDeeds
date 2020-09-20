@@ -48,9 +48,9 @@ export default function AvailablDeeds() {
 				<section className="section">
 					<div className="container">
 						{/* button : save & continue */}
-						<button className="button is-dark is-pulled-right">
+						<Link to={'/completed'} className="button is-dark is-pulled-right">
 							Completed goodDeeds
-						</button>
+						</Link>
 						<Link to={'/upcoming'} className="button is-warning is-pulled-right mr-3">
 							Upcoming goodDeeds
 						</Link>

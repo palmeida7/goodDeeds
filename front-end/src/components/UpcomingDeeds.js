@@ -7,9 +7,9 @@ export default function UpcomingDeeds() {
 	const [deeds, setDeeds] = useState([]);
 
 	async function getDeeds() {
-		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
-			status: 'assigned'
-			// assignedId: window.sessionStorage.getItem('users_id')
+		const response = await fetch("http://localhost:5000/upcoming_deeds?" + new URLSearchParams({
+			status: 'assigned',
+			assignedId: window.sessionStorage.getItem('users_id')
 		}));
 		const deedArray = await response.json();
 		setDeeds(deedArray);
@@ -42,16 +42,15 @@ export default function UpcomingDeeds() {
 		}
 	}
 
-
 	return (
 		<section>
 			<div className="container">
 				<section className="section">
 					<div className="container">
 						{/* button : save & continue */}
-						<button className="button is-dark is-pulled-right">
+						<Link to={'/completed'} className="button is-dark is-pulled-right">
 							Completed goodDeeds
-						</button>
+						</Link>
 						<Link to={'/explore'} className="button is-success is-pulled-right mr-3">
 							Available goodDeeds
 						</Link>
