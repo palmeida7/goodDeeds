@@ -1,58 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MiniProfile from "../components/MiniProfile";
+import Moment from "react-moment";
+import 'moment-timezone';
 
-export default function DeedAssigned() {
+
+export default function DeedAssigned(props) {
+	const [detailData, setDetailData] = useState({});
+	const [assignedUser, setAssignedUser] = useState({});
+	const id = props.match.params.id;
+	const [loadingAssignedUser, setLoadingAssignedUser] = useState(true);
+
+	async function getDeedsId() {
+		const resp = await fetch(`http://localhost:5000/deed/${props.match.params.id}`)
+		const deeds = await resp.json();
+		setDetailData(deeds);
+	};
+
+	useEffect(() => {
+		getDeedsId();
+	}, []);
+
+	async function getAssignedUser() {
+		const resp = await fetch(`http://localhost:5000/deed/${id}/assigned_users`)
+		let assignedUser = {};
+		if (resp.status === 200) {
+			assignedUser = await resp.json();
+		};
+		setAssignedUser(assignedUser)
+		setLoadingAssignedUser(false);
+	};
+
+	useEffect(() => {
+		getAssignedUser();
+	}, []);
+
+	if (loadingAssignedUser || !detailData) {
+		return <div>Loading ...</div>;
+	}
+
 	return (
 		<section>
-			<div class="container">
-				<section class="section">
-					<div class="container">
+			<div className="container">
+				<section className="section">
+					<div className="container">
 						{/* button : save & continue */}
-
-						<button class="button is-primary is-pulled-right">
+						{/* <button class="button is-primary is-pulled-right">
 							Message Contact
 						</button>
 						<button class="button is-danger mr-3 is-pulled-right">
 							Cancel
-						</button>
-						<div>
-							<span class="tag is-light">Atlanta, GA</span>
-						</div>
-
+						</button> */}
 						{/* screen title */}
-
-						<h1 class="title is-size-1">goodDeed Assigned</h1>
+						<h1 className="title is-size-1">Deed Assigned</h1>
 					</div>
 					<div>
 						<section>
 							{/* avatar */}
-
-							<div class="container">
-								<article class="media is-pulled-right">
-									<figure class="media-left">
-										<p class="image is-48x48">
+							<div className="container">
+								<article className="media is-pulled-right">
+									<figure className="media-left">
+										<p className="image is-48x48">
 											<img
-												class="is-rounded"
-												src="https://bulma.io/images/placeholders/128x128.png"
+												className="is-rounded"
+												src={detailData.picture}
+												alt="user avatar"
 											/>
 										</p>
 									</figure>
-
-									{/* user info */}
-
-									<div class="media-content">
-										<div class="content is-pulled-right">
+									{/* requester's info */}
+									<div className="media-content">
+										<div className="content is-pulled-right">
 											<p>
-												<strong>John Smith</strong> <br />
-												<small>@johnsmith</small>{" "}
-												<span class="tag is-success is-normal">Rating</span>{" "}
+												<strong>{detailData.name}</strong> <br />
+												<small>@{detailData.username}</small>{" "}
+												<span className="tag is-success is-normal">Rating</span>{" "}
 												<small>100%</small>
 												<br />
-												<label class="label mt-2">Location</label>
-												<span>Brookhaven, GA</span>{" "}
-												<label class="label mt-2">Community</label>
-												<span class="tag is-warning is-normal">
-													Seniors
+												<label className="label mt-2">Location</label>
+												<span>{detailData.location}</span>{" "}
+												<label className="label mt-2">Community</label>
+												<span className="tag is-warning is-normal">
+													{detailData.category}
 												</span>{" "}
 											</p>
 										</div>
@@ -60,62 +88,60 @@ export default function DeedAssigned() {
 								</article>
 							</div>
 						</section>
-
 						{/* goodDeed Date & Time Info  */}
-
-						<section class="mt-6">
-							<nav class="level">
-								<div class="level-item has-text-centered">
+						<section className="mt-6">
+							<nav className="level">
+								<div className="level-item has-text-centered">
 									<div>
-										<p class="heading">Date Created</p>
-										<p class="title">Sep 29, 2020</p>
+										<p className="heading">Date Created</p>
+										<p className="title"><Moment format="MM/DD/YYYY">{detailData.date_created}</Moment></p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered">
+								<div className="level-item has-text-centered">
 									<div>
-										<p class="heading">Date</p>
-										<p class="title">Oct 5, 2020</p>
+										<p className="heading">Date Requested</p>
+										<p className="title"><Moment format="MM/DD/YYYY">{detailData.date_todo}</Moment></p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered">
+								<div className="level-item has-text-centered">
 									<div>
-										<p class="heading">Start Time</p>
-										<p class="title">1:30 pm</p>
+										<p className="heading">Requested Time</p>
+										<p className="title"><Moment format="hh:mm A">{detailData.date_todo}</Moment></p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered">
+								{/* <div className="level-item has-text-centered">
 									<div>
-										<p class="heading">End Time</p>
-										<p class="title">2:30pm</p>
+										<p className="heading">End Time</p>
+										<p className="title">2:30pm</p>
 									</div>
-								</div>
+								</div> */}
 							</nav>
 						</section>
-
 						{/* Deed Summary & Things You Know Section */}
-
 						<section>
-							<div class="columns mt-6">
-								<div class="column">
+							<div className="columns mt-6">
+								<div className="column">
 									<section>
-										<h1 class="title">Summary</h1>
-										<h2 class="subtitle">
-											This portion is a summary of the goodDeed being viewed.
+										<h1 className="title">{detailData.title}</h1>
+										<h2 className="subtitle">
+											{detailData.description}
 										</h2>
 									</section>
 								</div>
 							</div>
 						</section>
-
 						{/* Assigned & Backup GoodDeed'r */}
-
-						<section class="section">
-							<div class="container">
-								<div class="columns">
-									<div class="column">
-										<h1 class="title mt-6">Assigned goodDeed'r</h1>
-										<MiniProfile />
+						<section className={`section ${detailData.status === 'assigned' ? '' : 'is-hidden'}`}>
+							<div className="container">
+								<div className="columns">
+									<div className="column">
+										<h1 className="title mt-6">Assigned goodDeed'r</h1>
+										<MiniProfile usersInfo={assignedUser} />
 									</div>
+									{/* <div className="column">
+										<h1 className="title mt-6">Backup goodDeed'r</h1>
+										<MiniProfile />
+									</div> */}
 								</div>
 							</div>
 						</section>
@@ -124,4 +150,5 @@ export default function DeedAssigned() {
 			</div>
 		</section>
 	);
-}
+};
+

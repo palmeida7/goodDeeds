@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import 'moment-timezone';
+import RatingBadge from './Rating/RatingBadge';
 
 export default function CompletedDeeds() {
 	const [deeds, setDeeds] = useState([]);
@@ -80,8 +81,11 @@ export default function CompletedDeeds() {
 											<p>
 												<strong>{window.sessionStorage.getItem("name")}</strong> <br />
 												<small>@{window.sessionStorage.getItem("username")}</small>{" "}
-												<span className="tag is-success is-normal">Rating</span>{" "}
-												<small>100%</small>
+												{/* <span className="tag is-success is-normal">Rating</span>{" "}
+												<small>100%</small> */}
+												<RatingBadge userId={window.sessionStorage.getItem('users_id')}
+														badgeSize="is-normal">
+												</RatingBadge>
 												<br />
 											</p>
 										</div>
@@ -147,7 +151,7 @@ export default function CompletedDeeds() {
 									<br />
 									{/* learn more */}
 									<pre>{JSON.stringify(deed, null, 2)}</pre>
-									<Link className="button is-info mt-3 " to={`/details/${deed.id}`} >Learn More</Link>
+									<Link className="button is-info mt-3 " to={`/deed_assigned/${deed.id}`} >Learn More</Link>
 									{/* <button className="button is-black mt-3 is-pulled-right is-hidden">
 										Learn More
 									</button> */}

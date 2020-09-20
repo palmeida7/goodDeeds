@@ -170,7 +170,7 @@ export default function AboutUs() {
 
 								<label class="label">Role</label>
 								<div class="tags has-addons">
-									<span class="tag is-black">Backend Logic</span>
+									<span class="tag is-black">Frontend & Backend Logic</span>
 								</div>
 
 								<div class="content">
