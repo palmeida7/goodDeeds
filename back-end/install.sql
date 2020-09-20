@@ -31,3 +31,10 @@ CREATE TABLE users_deeds (
 
 CREATE UNIQUE INDEX idx_users_deeds
 ON users_deeds(assigned_id, deeds_id);
+
+CREATE TABLE ratings (
+    id SERIAL PRIMARY KEY,
+    user_id INT,
+    rating INT check(rating >=1 and rating <=5)
+);
+ALTER TABLE ratings ADD CONSTRAINT user_rating_id_fk foreign key (user_id) references users(id);

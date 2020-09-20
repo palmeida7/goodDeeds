@@ -3,15 +3,16 @@ import MiniProfile from "../components/MiniProfile";
 import { Redirect } from "react-router";
 import Moment from "react-moment";
 import 'moment-timezone';
-
+import RatingBadge from './Rating/RatingBadge';
 
 export default function DeedDetail(props) {
 	const [detailData, setDetailData] = useState({});
 	const [assignedUser, setAssignedUser] = useState({});
-	const status = "assigned"
+	let deedStatus = "";
 	const id = props.match.params.id;
 	const userId = window.sessionStorage.getItem("users_id"); // rename to userid
 	const [goThrough, setGoThrough] = useState(false);
+	const [doneDeed, setDoneDeed] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
 	const [loadingAssignedUser, setLoadingAssignedUser] = useState(true);
 
@@ -26,22 +27,6 @@ export default function DeedDetail(props) {
 
 	useEffect(() => {
 		getDeedsId();
-		// try {
-		// 	fetch(`http://localhost:5000/deed/${id}/assigned_users`)
-		// 		.then((res) => {
-		// 			if (res.status === 204) {
-		// 				return {};
-		// 			} else {
-		// 				res.json();
-		// 			}
-		// 		})
-		// 		.then((data) => {
-		// 			setAssignedUser(data)
-		// 			setLoadingAssignedUser(false);
-		// 		});
-		// } catch (err) {
-		// 	console.error(err.message);
-		// }
 	}, []);
 
 	async function getAssignedUser() {
@@ -60,8 +45,26 @@ export default function DeedDetail(props) {
 
 	const acceptDeed = async (e) => {
 		e.preventDefault();
+		deedStatus = 'assigned'
 		try {
-			const body = { status, userId, id };
+			const body = { deedStatus, userId, id };
+			const response = await fetch(`http://localhost:5000/change_status`, {
+				method: "PUT",
+				headers: { "Content-type": "application/json" },
+				body: JSON.stringify(body)
+			});
+			await response.json();
+			setGoThrough(true);
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
+	const completeDeed = async (e) => {
+		e.preventDefault();
+		deedStatus = 'completed'
+		try {
+			const body = { deedStatus, userId, id };
 			const response = await fetch(`http://localhost:5000/change_status`, {
 				method: "PUT",
 				headers: { "Content-type": "application/json" },
@@ -82,6 +85,10 @@ export default function DeedDetail(props) {
 		return <Redirect to={"/upcoming"} />
 	};
 
+	if (doneDeed) {
+		return <Redirect to={"/completed"} />
+	}
+
 	return (
 		<section>
 			<div className="container">
@@ -95,9 +102,9 @@ export default function DeedDetail(props) {
 						<div>
 							<span className="tag is-light">{detailData.location}</span>
 						</div>
-						<button className={`btog button is-warning is-pulled-right ${isOwner ? '' : 'is-hidden'}`} >
-							Edit Deed
-									</button>
+						<button onClick={completeDeed} className={`btog button is-warning is-pulled-right ${isOwner ? '' : 'is-hidden'}`} >
+							Complete Deed
+						</button>
 						{/* screen title */}
 						<h1 className="title is-size-1">goodDeed Detail</h1>
 					</div>
@@ -119,10 +126,13 @@ export default function DeedDetail(props) {
 									<div className="media-content">
 										<div className="content is-pulled-right">
 											<p>
-												<strong>Requester</strong> <br />
+												<strong>{detailData.name}</strong> <br />
 												<small>@{detailData.username}</small>{" "}
-												<span className="tag is-success is-normal">Rating</span>{" "}
-												<small>100%</small>
+												{/* <span className="tag is-success is-normal">Rating</span>{" "}
+												<small>100%</small> */}
+												<RatingBadge userId={window.sessionStorage.getItem('users_id')}
+															badgeSize="is-normal">
+												</RatingBadge>
 												<br />
 												<label className="label mt-2">Location</label>
 												<span>{detailData.location}</span>{" "}
@@ -170,7 +180,7 @@ export default function DeedDetail(props) {
 							<div className="columns mt-6">
 								<div className="column">
 									<section>
-										<h1 className="title">Summary</h1>
+										<h1 className="title">{detailData.title}</h1>
 										<h2 className="subtitle">
 											{detailData.description}
 										</h2>

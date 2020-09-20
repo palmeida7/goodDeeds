@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Moment from "react-moment";
+import 'moment-timezone';
+import RatingBadge from './Rating/RatingBadge';
 
 export default function DeedsList() {
+    const [deeds, setDeeds] = useState([]);
+
+    async function getDeeds() {
+        const response = await fetch("http://localhost:5000/deeds_list?" + new URLSearchParams({
+            assignerId: window.sessionStorage.getItem('users_id')
+        }));
+        const deedArray = await response.json();
+        setDeeds(deedArray);
+    }
+    useEffect(() => {
+        getDeeds();
+    }, []);
+
     return (
         <section>
             <div class="container">
@@ -33,8 +49,11 @@ export default function DeedsList() {
                                             <p>
                                                 <strong>{window.sessionStorage.getItem("name")}</strong> <br />
                                                 <small>@{window.sessionStorage.getItem("username")}</small>{" "}
-                                                <span className="tag is-success is-normal">Rating</span>{" "}
-                                                <small>100%</small>
+                                                {/* <span className="tag is-success is-normal">Rating</span>{" "}
+                                                <small>100%</small> */}
+                                                <RatingBadge userId={window.sessionStorage.getItem('users_id')}
+                                                    badgeSize="is-normal">
+                                                </RatingBadge>
                                                 <br />
                                             </p>
                                         </div>
@@ -50,48 +69,41 @@ export default function DeedsList() {
                                             <th>
                                                 <abbr title="id">id</abbr>
                                             </th>
-                                            <th>Full Name</th>
                                             <th>
                                                 <abbr title="deed_name">Deed Name</abbr>
                                             </th>
                                             <th>
-                                                <abbr title="deed_assigned">Deed Assigned To</abbr>
+                                                <abbr title="categoty">Category</abbr>
                                             </th>
                                             <th>
-                                                <abbr title="city_st">City, ST</abbr>
+                                                <abbr title="location">Location</abbr>
                                             </th>
                                             <th>
-                                                <abbr title="date">Date</abbr>
+                                                <abbr title="date">Requested Date</abbr>
                                             </th>
                                             <th>
-                                                <abbr title="start_time">Start Time</abbr>
-                                            </th>
-                                            <th>
-                                                <abbr title="end_time">End Time</abbr>
+                                                <abbr title="request_date">Requested Time</abbr>
                                             </th>
                                             <th>
                                                 <abbr title="status">Status</abbr>
                                             </th>
                                         </tr>
                                         {/* table row */}
-                                        <tr>
-                                            <th id="deed_id">1</th>
-                                            <td id="full_name">
-                                                <a
-                                                    href="https://www.google.com"
-                                                    title="Leicester City F.C."
-                                                >
-                                                    Jim Jones
-                                                </a>{" "}
-                                            </td>
-                                            <td id="deed_name">Groceries for senior</td>
-                                            <td id="deed_assigned">Journey Encore</td>
-                                            <td id="city">Brookhaven</td>
-                                            <td id="date">9-23-20</td>
-                                            <td id="start_time">8:30 AM</td>
-                                            <td id="end_time">9:30 AM</td>
-                                            <td id="deed_status">Completed</td>
-                                        </tr>
+                                        {deeds.map((deed, idx) => (
+                                            <tr key={idx}>
+                                                <th id="deed_id">{deed.id}</th>
+                                                <td id="deed_name">
+                                                    <Link to={`/details/${deed.id}`}>
+                                                        {deed.title}
+                                                    </Link>{" "}
+                                                </td>
+                                                <td id="category">{deed.category}</td>
+                                                <td id="location">{deed.location}</td>
+                                                <td id="date"><Moment format="MM/DD/YYYY">{deed.date_todo}</Moment></td>
+                                                <td id="request_date"><Moment format="hh:mm A">{deed.date_todo}</Moment></td>
+                                                <td id="status">{deed.status}</td>
+                                            </tr>
+                                        ))}
                                         {/* table row end */}
                                     </thead>
                                 </table>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
 import { Redirect } from "react-router";
+import RatingBadge from './Rating/RatingBadge';
+
 
 const PrivateProfile = (props) => {
-    // const [userData, setUserData] = useState(props.userData || {});
     const { user } = useAuth0();
 
     useEffect(() => {
@@ -12,7 +14,6 @@ const PrivateProfile = (props) => {
                 fetch(`http://localhost:5000/user_profile/${user.email}`)
                     .then(res => res.json())
                     .then(data => {
-                        // setUserData(data)
                         setUserName(data.username)
                         setLocation(data.location)
                         setName(data.name)
@@ -31,7 +32,6 @@ const PrivateProfile = (props) => {
     const [shortBio, setShortBio] = useState(userData.short_bio);
     const [name, setName] = useState(userData.name);
     const [email] = useState(user.email);
-    const [picture] = useState(user.picture);
     const [updated, setUpdated] = useState(false);
 
     const onSubmitForm = async (e) => {
@@ -63,44 +63,47 @@ const PrivateProfile = (props) => {
         return <Redirect to={`/public_profile/${window.sessionStorage.getItem('email')}`} />
     };
 
-
     return (
         <form onSubmit={onSubmitForm}>
             <section>
-                <div class="container" >
-                    <section class="section">
-                        <div class="container">
+                <div className="container" >
+                    <section className="section">
+                        <div className="container">
                             {/* button : save & continue */}
-                            <button class="button is-light is-pulled-right">
+                            <button className="button is-light is-pulled-right">
                                 Save & Continue
 						</button>
                             <div>
-                                <span class="tag is-light" >{location}</span>
+                                <span className="tag is-light" >{location}</span>
                             </div>
                             {/* screen title */}
-                            <h1 class="title is-size-1">Private Profile</h1>
+                            <h1 className="title is-size-1">Private Profile</h1>
                         </div>
                         <div>
                             <section>
                                 {/* avatar */}
-                                <div class="container">
-                                    <article class="media">
-                                        <figure class="media-left">
-                                            <p class="image is-48x48">
+                                <div className="container">
+                                    <article className="media">
+                                        <Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+                                            <figure className="image is-48x48">
                                                 <img
-                                                    class="is-rounded"
-                                                    src={picture}
+                                                    className="is-rounded"
+                                                    src={window.sessionStorage.getItem('picture')}
+                                                    alt="owners profile"
                                                 />
-                                            </p>
-                                        </figure>
+                                            </figure>
+                                        </Link>
                                         {/* user info */}
-                                        <div class="media-content">
-                                            <div class="content">
+                                        <div className="media-content">
+                                            <div className="content">
                                                 <p>
                                                     <strong>{name}</strong> <br />
                                                     <small>@{userName}</small>{" "}
-                                                    <span class="tag is-success is-normal">Rating</span>{" "}
-                                                    <small>100%</small>
+                                                    {/* <span className="tag is-success is-normal">Rating</span>{" "}
+                                                    <small>100%</small> */}
+                                                    <RatingBadge userId={window.sessionStorage.getItem('users_id')}
+                                                        badgeSize="is-normal">
+                                                    </RatingBadge>
                                                     <br />
                                                 </p>
                                             </div>
@@ -112,28 +115,28 @@ const PrivateProfile = (props) => {
                     </section>
                 </div>
             </section>
-            <section class="section ml-2">
-                <div class="container">
-                    <div class="columns">
-                        <div class="column">
+            <section className="section ml-2">
+                <div className="container">
+                    <div className="columns">
+                        <div className="column">
                             {/* upload file */}
-                            {/* <div class="file">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file" name="resume" />
-                                            <span class="file-cta mb-5"> */}
-                            {/* <span class="file-icon">
-												<i class="fas fa-upload"></i>
+                            {/* <div className="file">
+                                        <label className="file-label">
+                                            <input className="file-input" type="file" name="resume" />
+                                            <span className="file-cta mb-5"> */}
+                            {/* <span className="file-icon">
+												<i className="fas fa-upload"></i>
 											</span> */}
-                            {/* <span class="file-label">Upload Pic+</span>
+                            {/* <span className="file-label">Upload Pic+</span>
                                             </span>
                                         </label>
                                     </div> */}
                             {/* full name */}
-                            <div class="field">
-                                <label class="label">Full Name</label>
-                                <div class="control">
+                            <div className="field">
+                                <label className="label">Full Name</label>
+                                <div className="control">
                                     <input
-                                        class="input"
+                                        className="input"
                                         type="text"
                                         value={name || ""}
                                         onChange={e => setName(e.target.value)}
@@ -142,11 +145,11 @@ const PrivateProfile = (props) => {
                                 </div>
                             </div>
                             {/* username */}
-                            <div class="field">
-                                <label class="label">Username</label>
-                                <div class="control">
+                            <div className="field">
+                                <label className="label">Username</label>
+                                <div className="control">
                                     <input
-                                        class="input"
+                                        className="input"
                                         type="text"
                                         value={userName || ""}
                                         onChange={e => setUserName(e.target.value)}
@@ -155,11 +158,11 @@ const PrivateProfile = (props) => {
                                 </div>
                             </div>
                             {/* email // changed it to phone number */}
-                            <div class="field">
-                                <label class="label">Phone Number</label>
-                                <div class="control">
+                            <div className="field">
+                                <label className="label">Phone Number</label>
+                                <div className="control">
                                     <input
-                                        class="input"
+                                        className="input"
                                         type="text"
                                         value={phone || ""}
                                         onChange={e => setPhone(e.target.value)}
@@ -168,29 +171,28 @@ const PrivateProfile = (props) => {
                                 </div>
                             </div>
                             {/* short bio */}
-                            <label class="label">Short Bio</label>
+                            <label className="label">Short Bio</label>
                             <textarea
-                                class="textarea"
+                                className="textarea"
                                 value={shortBio || ""}
                                 onChange={e => setShortBio(e.target.value)}
                                 placeholder="e.g. Hello world"
                             ></textarea>
                         </div>
                         {/* goodDeed rating */}
-                        <div class="column">
-                            <h1 class="title">goodDeed Rating</h1>
-                            <span class="tag is-success is-medium mb-2">100%</span>
+                        <div className="column">
+                            <h1 className="title">goodDeed Rating</h1>
+                            <span className="tag is-success is-medium mb-2">100%</span>
                             {/* phone number // changed to location */}
-                            <div class="field mt-6">
-                                <label class="label">Location</label>
-                                <div class="control">
+                            <div className="field mt-6">
+                                <label className="label">Location</label>
+                                <div className="control">
                                     <select
-                                        class="input"
+                                        className="input"
                                         type="text"
                                         value={location || ""}
                                         onChange={e => setLocation(e.target.value)}
-                                        placeholder="Choose a location"
-                                    >
+                                        placeholder="Choose a location">
                                         <option> -- Location -- </option>
                                         <option>Atlanta, GA</option>
                                         <option>Virtual/Remote</option>
@@ -198,25 +200,25 @@ const PrivateProfile = (props) => {
                                 </div>
                             </div>
                             {/* location */}
-                            {/* <div class="field">
-                                        <label class="label">Location</label>
-                                        <div class="control">
+                            {/* <div className="field">
+                                        <label className="label">Location</label>
+                                        <div className="control">
                                             <input
-                                                class="input"
+                                                className="input"
                                                 type="text"
                                                 placeholder="enter phone #"
                                             />
                                         </div>
                                     </div> */}
                             {/* interest tags areas */}
-                            <label class="label">Interest Areas</label>
-                            <div class="tags has-addons">
-                                <span class="tag is-warning">Seniors</span>
-                                <a class="tag is-delete mr-2"></a>
-                                <span class="tag is-black">Black Lives Matter</span>
-                                <a class="tag is-delete mr-2"></a>
-                                <span class="tag is-primary">LBGTQ</span>
-                                <a class="tag is-delete mr-2"></a>
+                            <label className="label">Interest Areas</label>
+                            <div className="tags has-addons">
+                                <span className="tag is-warning">Seniors</span>
+                                <a className="tag is-delete mr-2"></a>
+                                <span className="tag is-black">Black Lives Matter</span>
+                                <a className="tag is-delete mr-2"></a>
+                                <span className="tag is-primary">LBGTQ</span>
+                                <a className="tag is-delete mr-2"></a>
                             </div>
                         </div>
                     </div>

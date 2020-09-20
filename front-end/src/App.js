@@ -12,6 +12,7 @@ import Chat from "./components/Chat/Chat";
 import PublicProfile from "./components/PublicProfile";
 import PrivateProfile from "./components/PrivateProfile";
 import CreateDeed from "./components/CreateDeed";
+import EditDeed from "./components/EditDeed";
 import DeedAssigned from "./components/DeedAssigned";
 import DeedDetail from "./components/DeedDetail";
 import LogoutButton from "./components/Auth0/LogoutButton";
@@ -21,10 +22,6 @@ import UpcomingDeeds from "./components/UpcomingDeeds";
 import DeedsList from "./components/DeedsList";
 import CompletedDeeds from "./components/CompletedDeeds";
 
-
-
-
-
 const App = () => {
   let query = new URLSearchParams(window.location.search);
   const {isAuthenticated, isLoading, user, loginWithRedirect} = useAuth0();
@@ -32,20 +29,9 @@ const App = () => {
     loginWithRedirect()
   }
 
-  
-
-
   return (
   
     <Router>
-      {/* 
-      <Route path="/upcoming" exact component={Upcoming} />
-      <Route path="/completed" exact component={Completed} />
-      <Route path="/ratings" exact component={Ratings} />
-      <Route path="/signup_feed" exact component={SignUpFeed} />
-      <Route path="/assigned" exact component={Assigned} />
-      <Route path="/edit_deed" exact component={EditDeed} /> */}
-
       <Navbar />
       {isAuthenticated &&
         <>
@@ -57,13 +43,13 @@ const App = () => {
           <Route path="/upcoming" exact component={UpcomingDeeds} />
           <Route path="/completed" exact component={CompletedDeeds} />
           <Route path="/create_deed" exact component={CreateDeed} />
+          <Route path="/edit_deed/:id" exact component={EditDeed} />
           <Route path="/deed_assigned/:id" exact component={DeedAssigned} />
           <Route path="/details/:id" exact component={DeedDetail} />
           <Route path="/deeds_list" exact component={DeedsList} />
           <Route path="/message" exact component={Join} />
           <Route path="/chat" component={Chat} />
           <Route path="/about" component={AboutUs} />
-
         </>
       }
 

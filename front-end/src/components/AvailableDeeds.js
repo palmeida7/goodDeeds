@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import 'moment-timezone';
+import RatingBadge from './Rating/RatingBadge';
 
 export default function AvailablDeeds() {
 	const [deeds, setDeeds] = useState([]);
@@ -80,8 +81,11 @@ export default function AvailablDeeds() {
 											<p>
 												<strong>{window.sessionStorage.getItem("name")}</strong> <br />
 												<small>@{window.sessionStorage.getItem("username")}</small>{" "}
-												<span className="tag is-success is-normal">Rating</span>{" "}
-												<small>100%</small>
+												{/* <span className="tag is-success is-normal">Rating</span>{" "}
+												<small>100%</small> */}
+												<RatingBadge userId={window.sessionStorage.getItem('users_id')}
+														badgeSize="is-normal">
+												</RatingBadge>
 												<br />
 											</p>
 										</div>

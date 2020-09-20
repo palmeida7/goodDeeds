@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router";
-// import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import RatingBadge from './Rating/RatingBadge';
+
 export default function CreateDeed(props) {
 	// deeds
 	const deedData = props.deedData || {};
@@ -15,10 +17,9 @@ export default function CreateDeed(props) {
 	const [updated, setUpdated] = useState(false);
 
 	// profile data
-	const [userName, setUserName] = useState(window.sessionStorage.getItem("username"));
-	const [location, setLocation] = useState(window.sessionStorage.getItem("location"));
-	const [name, setName] = useState(window.sessionStorage.getItem("name"));
-	const [picture, setPicture] = useState(window.sessionStorage.getItem("picture"));
+	const userName = window.sessionStorage.getItem("username");
+	const location = window.sessionStorage.getItem("location");
+	const name = window.sessionStorage.getItem("name");
 
 	const onSubmitForm = async (e) => {
 		e.preventDefault();
@@ -55,29 +56,33 @@ export default function CreateDeed(props) {
 								<span class="tag is-light">{location}</span>
 							</div>
 							{/* screen title */}
-							<h1 class="title is-size-1">Created goodDeed</h1>
+							<h1 class="title is-size-1">Create goodDeed</h1>
 						</div>
 						<div>
 							{/* avatar */}
 							<section>
 								<div class="container">
 									<article class="media">
-										<figure class="media-left">
-											<p class="image is-48x48">
-												<img
-													class="is-rounded"
-													src={picture}
-												/>
-											</p>
+									<Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+										<figure className="image is-48x48">
+											<img
+												className="is-rounded"
+												src={window.sessionStorage.getItem('picture')}
+												alt="owners profile"
+											/>
 										</figure>
+									</Link>
 										{/* user info */}
 										<div class="media-content">
 											<div class="content">
 												<p>
 													<strong>{name}</strong> <br />
 													<small>@{userName}</small>{" "}
-													<span class="tag is-success is-normal">Rating</span>{" "}
-													<small>100%</small>
+													{/* <span class="tag is-success is-normal">Rating</span>{" "}
+													<small>100%</small> */}
+													<RatingBadge userId={window.sessionStorage.getItem('users_id')}
+															badgeSize="is-normal">
+													</RatingBadge>
 												</p>
 											</div>
 										</div>

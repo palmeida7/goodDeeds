@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// users
+// add users to db
 app.post("/add_users", async (req, res) => {
     try {
         const { name, username, location, email, phone, short_bio, picture } = req.body;
@@ -57,7 +57,7 @@ app.get("/user_profile/:email", async (req, res) => {
     }
 });
 
-// profile
+// edit profile
 app.put("/update_user", async (req, res) => {
     try {
         // const {id} = req.params;
@@ -73,7 +73,7 @@ app.put("/update_user", async (req, res) => {
     }
 });
 
-// all deeds
+// available deeds
 app.get("/deeds", async (req, res) => {
     try {
         // filter status conditions
@@ -87,6 +87,7 @@ app.get("/deeds", async (req, res) => {
             ON d.assigner_id=u.id`;
         let addStatus = ` AND d.status='${status}'`;
         let addAssigner = ` AND d.assigner_id!=${assignerId}`;
+        
         if (status) {
             sqlStr = sqlStr + addStatus;
         };
@@ -94,11 +95,32 @@ app.get("/deeds", async (req, res) => {
             sqlStr = sqlStr + addAssigner;
         };
         const allDeeds = await pool.query(sqlStr);
-        console.log(sqlStr);
-        console.log(allDeeds);
         res.send(allDeeds.rows);
     } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
+    }
+});
+
+// deeds list
+app.get("/deeds_list", async (req, res) => {
+    try {
+        // filter status conditions
+        const { assignerId } = req.query;
+        let sqlStr = `
+            SELECT 
+                d.id, d.category, d.title, d.description, d.location, d.date_created, 
+                d.date_todo, d.status, u.name, u.username, u.picture, u.email 
+            FROM deeds AS d 
+            JOIN users AS u 
+            ON d.assigner_id=u.id`;
+        let addAssigner = ` AND d.assigner_id=${assignerId}`;
+        if (assignerId) {
+            sqlStr = sqlStr + addAssigner;
+        };
+        const allDeeds = await pool.query(sqlStr);
+        res.send(allDeeds.rows);
+    } catch (err) {
+        console.error(err.message);
     }
 });
 
@@ -120,16 +142,14 @@ app.get("/upcoming_deeds", async (req, res) => {
             sqlStr = sqlStr + addAssigned;
         };
         const allAssignedDeeds = await pool.query(sqlStr);
-        console.log(sqlStr);
-        console.log(allAssignedDeeds);
         res.send(allAssignedDeeds.rows);
     } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
     }
 });
 
 
-// SPECIFIC deed
+// deed detail
 app.get("/deed/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -166,9 +186,6 @@ app.get("/deed/:id/assigned_users", async (req, res) => {
     }
 });
 
-
-
-
 // create a deed
 app.post("/create_deed", async (req, res) => {
     try {
@@ -187,27 +204,15 @@ app.post("/create_deed", async (req, res) => {
     }
 })
 
-//edit a deed
-// app.put("/edit_deed", async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const { title, description, category, location, status } = req.body;
-//         const editDeed = await pool.query("UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) WHERE id = $6", [title, description, category, location, status, id]);
-//         res.json("Deed was updated.");
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// })
-
-// edit a deed
-app.put("/edit_deed", async (req, res) => {
+// edit deed
+app.put("/update_deed", async (req, res) => {
     try {
-        const { title, description, category, location, status, id } = req.body;
+        const { category, title, description, dateCreated, dateTodo, deedLocation, status, deedId } = req.body;
         const editDeed = await pool.query(`
-            UPDATE deeds SET (title, description, category, location, status) = ($1,$2,$3,$4,$5) 
-            WHERE id = $6`,
-            [title, description, category, location, status, id]);
-        res.json("Deed was updated.");
+            UPDATE deeds SET (title, description, date_created, date_todo, location, status) = ($1,$2,$3,$4,$5,$6) 
+            WHERE id = $7 returning *`,
+            [category, title, description, dateCreated, dateTodo, deedLocation, status, deedId ]);
+        res.json(editDeed.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
@@ -216,11 +221,11 @@ app.put("/edit_deed", async (req, res) => {
 // edit status
 app.put("/change_status", async (req, res) => {
     try {
-        const { status, id, userId } = req.body;
+        const { deedStatus, id, userId } = req.body;
         const editStatus = await pool.query(`
             UPDATE deeds SET status = $1
             WHERE id = $2`,
-            [status, id]);
+            [deedStatus, id]);
         const assignedUser = await pool.query(`
             INSERT INTO users_deeds (assigned_id, deeds_id)
             VALUES ($1, $2)
@@ -245,7 +250,38 @@ app.delete("/deed/:id", async (req, res) => {
     }
 })
 
+// get a user's ratings
+app.get("/user/:id/ratings", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userRatings = await pool.query(`
+            SELECT trunc(AVG(r.rating), 1) as rating
+            FROM users AS u
+            JOIN ratings AS r on u.id=r.user_id
+            WHERE u.id=${id}
+            GROUP BY u.id;
+        `);
+        if (userRatings.rowCount > 0) {
+            res.json(userRatings.rows[0]);
+        } else {
+            res.json({ rating: 'N/A' });
+        }
+    } catch (err) {
+        console.error(err.message);
+    }
+});
 
+//create a rating
+app.post("/user/:id/rating", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { rating } = req.body;
+        const newRating = await pool.query("INSERT INTO ratings (user_id, rating) VALUES ($1, $2) returning *", [id, rating]);
+        res.json(newRating.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+})
 
 // chat
 io.on('connect', (socket) => {
