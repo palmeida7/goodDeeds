@@ -1,22 +1,25 @@
 import React from "react";
-export default function MiniProfile() {
+import { Link } from "react-router-dom";
+
+export default function MiniProfile({ usersInfo }) {
     return (
-        <div class="container">
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-48x48">
+        <div className="container">
+            <article className="media">
+                <Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+                    <figure className="image is-48x48">
                         <img
-                            class="is-rounded"
-                            src="https://bulma.io/images/placeholders/128x128.png"
+                            className="is-rounded"
+                            src={window.sessionStorage.getItem('picture')}
+                            alt="owners profile"
                         />
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
+                    </figure>
+                </Link>
+                <div className="media-content">
+                    <div className="content">
                         <p>
-                            <a href="../screens/Public_Profile.js"><strong>Testing DDD</strong> <br /></a>
-                            <small>@Eric-Yimmm</small>{" "}
-                            <span class="tag is-success is-normal">Rating</span>{" "}
+                            <span href="../screens/Public_Profile.js"><strong>{usersInfo.name}</strong> <br /></span>
+                            <small>@{usersInfo.username}</small>{" "}
+                            <span className="tag is-success is-normal">Rating</span>{" "}
                             <small>100%</small>
                             <br />
                         </p>

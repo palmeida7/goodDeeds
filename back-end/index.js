@@ -74,59 +74,99 @@ app.put("/update_user", async (req, res) => {
 });
 
 // all deeds
-app.get("/deeds/", async (req, res) => {
+app.get("/deeds", async (req, res) => {
     try {
         // filter status conditions
         const { status, assignerId } = req.query;
-        console.log(assignerId);
-        const allDeeds = await pool.query(`
+        let sqlStr = `
             SELECT 
                 d.id, d.category, d.title, d.description, d.location, d.date_created, 
                 d.date_todo, d.status, u.name, u.username, u.picture, u.email 
             FROM deeds AS d 
             JOIN users AS u 
-            ON d.assigner_id=u.id
-            AND d.status='${status}' 
-            AND d.assigner_id!=${assignerId}
-            ;`);
+            ON d.assigner_id=u.id`;
+        let addStatus = ` AND d.status='${status}'`;
+        let addAssigner = ` AND d.assigner_id!=${assignerId}`;
+        if (status) {
+            sqlStr = sqlStr + addStatus;
+        };
+        if (assignerId) {
+            sqlStr = sqlStr + addAssigner;
+        };
+        const allDeeds = await pool.query(sqlStr);
+        console.log(sqlStr);
+        console.log(allDeeds);
         res.send(allDeeds.rows);
     } catch (err) {
         console.log(err.message);
     }
 });
 
+// assigned deeds / complete deeds
+app.get("/upcoming_deeds", async (req, res) => {
+    try {
+        const { status, assignedId } = req.query;
+        let sqlStr = `
+            SELECT d.*, u.*
+            FROM deeds AS d 
+            JOIN users_deeds ud ON d.id = ud.deeds_id
+            JOIN users u ON ud.assigned_id = u.id`;
+        let addStatus = ` AND d.status='${status}'`;
+        let addAssigned = ` AND ud.assigned_id!=${assignedId}`;
+        if (status) {
+            sqlStr = sqlStr + addStatus;
+        };
+        if (assignedId) {
+            sqlStr = sqlStr + addAssigned;
+        };
+        const allAssignedDeeds = await pool.query(sqlStr);
+        console.log(sqlStr);
+        console.log(allAssignedDeeds);
+        res.send(allAssignedDeeds.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+
 // SPECIFIC deed
 app.get("/deed/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const deed = await pool.query(`
-        SELECT
-            d.id, d.category, d.title, d.description, d.location, d.date_created, 
-            d.date_todo, d.status, d.assigner_id, u.name, u.username, u.picture, u.email 
-        FROM deeds AS d 
-        JOIN users AS u 
-        ON d.assigner_id=u.id 
-        WHERE d.id =$1`, [id])
+            SELECT
+                d.id, d.category, d.title, d.description, d.location, d.date_created, 
+                d.date_todo, d.status, d.assigner_id, u.name, u.username, u.picture, u.email 
+            FROM deeds AS d 
+            JOIN users AS u 
+            ON d.assigner_id=u.id 
+            WHERE d.id =$1`, [id])
         res.json(deed.rows[0]);
     } catch (err) {
         console.error(err.message)
     }
 });
-// m-t-m relationship
-// app.get("/deed/:id", async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const deed = await pool.query(`
-//         SELECT d.*
-//         FROM deeds AS d
-//         JOIN users_deeds ud ON d.id = ud.deeds_id
-//         JOIN users u ON u.id = ud.assigner_id
-//         WHERE ud.id =$1`, [id])
-//         res.json(deed.rows[0]);
-//     } catch (err) {
-//         console.error(err.message)
-//     }
-// });
+
+// assigned users
+app.get("/deed/:id/assigned_users", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const users = await pool.query(`
+            SELECT u.*
+            FROM users AS u
+            JOIN users_deeds ud ON u.id = ud.assigned_id
+            WHERE ud.deeds_id =$1`, [id])
+        if (users.rows.length > 0) {
+            res.status(200).json(users.rows[0]);
+        } else {
+            res.status(204).json({});
+        };
+    } catch (err) {
+        console.error(err.message)
+    }
+});
+
+
 
 
 // create a deed
@@ -193,20 +233,6 @@ app.put("/change_status", async (req, res) => {
         console.error(err.message);
     }
 })
-
-
-//deed shown based on status
-// app.get("/deeds/status", async (req, res) => {
-//     try {
-
-//         const openDeeds = await pool.query("SELECT d.deeds_id, d.category, d.title, d.description, d.location, d.date_created, d.date_todo, d.status, u.name, u.username, u.picture, u.email FROM deeds AS d JOIN users AS u ON d.users_id=u.users_id AND d.status='open';");
-//         res.send(openDeeds.rows);
-//     } catch (err) {
-//         console.log(err.message);
-//     }
-// });
-
-
 
 // delete a deed
 app.delete("/deed/:id", async (req, res) => {

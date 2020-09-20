@@ -15,10 +15,11 @@ import CreateDeed from "./components/CreateDeed";
 import DeedAssigned from "./components/DeedAssigned";
 import DeedDetail from "./components/DeedDetail";
 import LogoutButton from "./components/Auth0/LogoutButton";
-import BackFront from "./components/Auth0/BackFront";
 import AvailableDeeds from "./components/AvailableDeeds";
 import AboutUs from "./components/AboutUs";
 import UpcomingDeeds from "./components/UpcomingDeeds";
+import DeedsList from "./components/DeedsList";
+import CompletedDeeds from "./components/CompletedDeeds";
 
 
 
@@ -50,14 +51,15 @@ const App = () => {
         <>
           <Route path="/sign_in" component={SignIn} />
           <Route path="/logout" exact component={LogoutButton} />
-          <Route path="/_hidden" exact component={BackFront} />
-          <Route path="/public_profile" exact component={PublicProfile} />
+          <Route path="/public_profile/:email" exact component={PublicProfile} />
           <Route path="/private_profile" exact component={PrivateProfile} />
           <Route path="/explore" exact component={AvailableDeeds} />
           <Route path="/upcoming" exact component={UpcomingDeeds} />
+          <Route path="/completed" exact component={CompletedDeeds} />
           <Route path="/create_deed" exact component={CreateDeed} />
-          <Route path="/deed_assigned" exact component={DeedAssigned} />
+          <Route path="/deed_assigned/:id" exact component={DeedAssigned} />
           <Route path="/details/:id" exact component={DeedDetail} />
+          <Route path="/deeds_list" exact component={DeedsList} />
           <Route path="/message" exact component={Join} />
           <Route path="/chat" component={Chat} />
           <Route path="/about" component={AboutUs} />

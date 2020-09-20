@@ -1,31 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
 
-const PublicProfile = ({ userInfo }) => {
-    const [_userData, setUserData] = useState(userInfo);
-    const { user } = useAuth0();
+const PublicProfile = (props) => {
+    const [profileData, setProfileData] = useState({});
 
-
+    async function getProfileInfo() {
+		const resp = await fetch(`http://localhost:5000/user_profile/${props.match.params.email}`)
+		const userInfo = await resp.json();
+		setProfileData(userInfo);
+	};
 
     useEffect(() => {
-        if (!_userData) {
-            try {
-                fetch(`http://localhost:5000/user_profile/${user.email}`)
-                    .then(res => res.json())
-                    .then(data => setUserData(data))
-            } catch (err) {
-                console.error(err.message);
-            }
-        }
-    }, [])
+        getProfileInfo()
+    }, []);
 
-
-    if (!_userData) {
-        return <div>Loading..</div>
-    }
 
     return (
-        <section key={_userData.email}>            
+        <section key={profileData.email}>            
             <div class="container">
                 <section class="section">
                     <div class="container">
@@ -53,7 +43,7 @@ const PublicProfile = ({ userInfo }) => {
                                             <p class="image is-48x48">
                                                 <img
                                                     class="is-rounded"
-                                                    src={_userData.picture}
+                                                    src={profileData.picture}
                                                 />
                                             </p>
                                         </figure>
@@ -61,8 +51,8 @@ const PublicProfile = ({ userInfo }) => {
                                         <div class="media-content">
                                             <div class="content">
                                                 <p>
-                                                    <strong class="title">{_userData.name}</strong> <br />
-                                                    <small>@{_userData.username}</small> <br />
+                                                    <strong class="title">{profileData.name}</strong> <br />
+                                                    <small>@{profileData.username}</small> <br />
                                                 </p>
                                             </div>
                                         </div>
@@ -82,13 +72,13 @@ const PublicProfile = ({ userInfo }) => {
                                 <h3>
                                     <strong>Location</strong>
                                 </h3>
-                                <h4>{_userData.location}</h4>
+                                <h4>{profileData.location}</h4>
                                 {/* short bio */}
                                 <h3 class="mt-4">
                                     <strong>Short Bio</strong>
                                 </h3>
                                 <h4>
-                                    {_userData.short_bio}
+                                    {profileData.short_bio}
                                 </h4>
                                 {/* GoodDeed Rating */}
                                 <h3 class="mt-4">
