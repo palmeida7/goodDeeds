@@ -1,36 +1,39 @@
 import React from "react";
-export default function DeedTable() {
+import { Link } from "react-router-dom";
+
+export default function DeedsList() {
     return (
         <section>
             <div class="container">
                 <section class="section">
                     <div class="container">
                         <div>
-                            <span class="tag is-light">Atlanta, GA</span>
+                            <span class="tag is-light">{window.sessionStorage.getItem('location')}</span>
                         </div>
                         {/* screen title */}
-                        <h1 class="title is-size-1">Deeds Table</h1>
+                        <h1 class="title is-size-1">Deeds List</h1>
                     </div>
                     <div>
                         <section>
                             {/* avatar */}
                             <div class="container">
                                 <article class="media">
-                                    <figure class="media-left">
-                                        <p class="image is-48x48">
+                                    <Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+                                        <figure className="image is-48x48">
                                             <img
-                                                class="is-rounded"
-                                                src="https://bulma.io/images/placeholders/128x128.png"
+                                                className="is-rounded"
+                                                src={window.sessionStorage.getItem('picture')}
+                                                alt="owners profile"
                                             />
-                                        </p>
-                                    </figure>
+                                        </figure>
+                                    </Link>
                                     {/* user info */}
-                                    <div class="media-content">
-                                        <div class="content">
+                                    <div className="media-content">
+                                        <div className="content">
                                             <p>
-                                                <strong>John Smith</strong> <br />
-                                                <small>@johnsmith</small>{" "}
-                                                <span class="tag is-success is-normal">Rating</span>{" "}
+                                                <strong>{window.sessionStorage.getItem("name")}</strong> <br />
+                                                <small>@{window.sessionStorage.getItem("username")}</small>{" "}
+                                                <span className="tag is-success is-normal">Rating</span>{" "}
                                                 <small>100%</small>
                                                 <br />
                                             </p>

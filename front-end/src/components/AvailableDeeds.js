@@ -8,7 +8,7 @@ export default function AvailablDeeds() {
 
 	async function getDeeds() {
 		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
-			status: 'open', 
+			status: 'open',
 			assignerId: window.sessionStorage.getItem('users_id')
 		}));
 		const deedArray = await response.json();
@@ -65,15 +65,15 @@ export default function AvailablDeeds() {
 							{/* avatar */}
 							<div className="container">
 								<article className="media">
-								<Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
-											<figure className="image is-48x48">
-												<img
-													className="is-rounded"
-													src={window.sessionStorage.getItem('picture')}
-													alt="owners profile"
-												/>
-											</figure>
-										</Link>
+									<Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+										<figure className="image is-48x48">
+											<img
+												className="is-rounded"
+												src={window.sessionStorage.getItem('picture')}
+												alt="owners profile"
+											/>
+										</figure>
+									</Link>
 									{/* user info */}
 									<div className="media-content">
 										<div className="content">
