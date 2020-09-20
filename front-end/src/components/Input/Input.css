@@ -25,3 +25,35 @@ input:focus, textarea:focus, select:focus{
     border: none;
     width: 20%;
 } */
+
+
+
+.sendButton-chat {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ed6f2f;
+    padding: 20px;
+    display: inline-block;
+    border: none;
+    width: 15%;
+    border-radius: 10px;
+}
+
+.input-chat {
+    border: none;
+    border-radius: 0;
+    padding: 1%;
+    width: 80%;
+    font-size: 1.2em;
+    margin-right: 5%;
+}
+
+
+.input-chat:focus, textarea:focus, select:focus{
+    outline-color: #e4e4e4;
+}
+
+.sendButton-chat:focus{
+    outline-color: none;
+}
