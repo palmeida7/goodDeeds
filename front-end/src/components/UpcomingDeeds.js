@@ -9,6 +9,7 @@ export default function UpcomingDeeds() {
 	async function getDeeds() {
 		const response = await fetch("http://localhost:5000/deeds?" + new URLSearchParams({
 			status: 'assigned'
+			// assignedId: window.sessionStorage.getItem('users_id')
 		}));
 		const deedArray = await response.json();
 		setDeeds(deedArray);
@@ -65,15 +66,15 @@ export default function UpcomingDeeds() {
 							{/* avatar */}
 							<div className="container">
 								<article className="media">
-									<figure className="media-left">
-										<p className="image is-48x48">
+									<Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+										<figure className="image is-48x48">
 											<img
 												className="is-rounded"
-												src={window.sessionStorage.getItem("picture")}
-												alt="user's avatar"
+												src={window.sessionStorage.getItem('picture')}
+												alt="owners profile"
 											/>
-										</p>
-									</figure>
+										</figure>
+									</Link>
 									{/* user info */}
 									<div className="media-content">
 										<div className="content">
@@ -109,13 +110,15 @@ export default function UpcomingDeeds() {
 								<div className="media">
 									<div className="media-left">
 										{/* image avatar */}
-										<figure className="image is-48x48">
-											<img
-												className="is-rounded"
-												src={deed.picture}
-												alt="user's avatar"
-											/>
-										</figure>
+										<Link to={`/public_profile/${deed.email}`}>
+											<figure className="image is-48x48">
+												<img
+													className="is-rounded"
+													src={deed.picture}
+													alt="specific users profile"
+												/>
+											</figure>
+										</Link>
 									</div>
 									{/* user info */}
 									<div className="media-content">

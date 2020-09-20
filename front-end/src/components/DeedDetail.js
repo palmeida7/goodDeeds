@@ -7,11 +7,13 @@ import 'moment-timezone';
 
 export default function DeedDetail(props) {
 	const [detailData, setDetailData] = useState({});
+	const [assignedUser, setAssignedUser] = useState({});
 	const status = "assigned"
 	const id = props.match.params.id;
 	const userId = window.sessionStorage.getItem("users_id"); // rename to userid
 	const [goThrough, setGoThrough] = useState(false);
 	const [isOwner, setIsOwner] = useState(false);
+	const [loadingAssignedUser, setLoadingAssignedUser] = useState(true);
 
 	async function getDeedsId() {
 		const resp = await fetch(`http://localhost:5000/deed/${props.match.params.id}`)
@@ -23,29 +25,62 @@ export default function DeedDetail(props) {
 	};
 
 	useEffect(() => {
-		getDeedsId()
+		getDeedsId();
+		// try {
+		// 	fetch(`http://localhost:5000/deed/${id}/assigned_users`)
+		// 		.then((res) => {
+		// 			if (res.status === 204) {
+		// 				return {};
+		// 			} else {
+		// 				res.json();
+		// 			}
+		// 		})
+		// 		.then((data) => {
+		// 			setAssignedUser(data)
+		// 			setLoadingAssignedUser(false);
+		// 		});
+		// } catch (err) {
+		// 	console.error(err.message);
+		// }
+	}, []);
+
+	async function getAssignedUser() {
+		const resp = await fetch(`http://localhost:5000/deed/${id}/assigned_users`)
+		let assignedUser = {};
+		if (resp.status === 200) {
+			assignedUser = await resp.json();
+		};
+		setAssignedUser(assignedUser)
+		setLoadingAssignedUser(false);
+	};
+
+	useEffect(() => {
+		getAssignedUser();
 	}, []);
 
 	const acceptDeed = async (e) => {
 		e.preventDefault();
 		try {
-            const body = { status, userId , id };
-            const response = await fetch(`http://localhost:5000/change_status`, {
-                method: "PUT",
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(body)
-            });
+			const body = { status, userId, id };
+			const response = await fetch(`http://localhost:5000/change_status`, {
+				method: "PUT",
+				headers: { "Content-type": "application/json" },
+				body: JSON.stringify(body)
+			});
 			await response.json();
 			setGoThrough(true);
-        } catch (err) {
-            console.error(err.message);
-        }
+		} catch (err) {
+			console.error(err.message);
+		}
 	};
+
+	if (loadingAssignedUser || !detailData) {
+		return <div>Loading ...</div>;
+	}
 
 	if (goThrough) {
 		return <Redirect to={"/upcoming"} />
 	};
-	
 
 	return (
 		<section>
@@ -54,14 +89,14 @@ export default function DeedDetail(props) {
 					<div className="container">
 						{/* button : save & continue */}
 						<button onClick={acceptDeed}
-								className={`btog button is-success is-pulled-right ${isOwner ? 'is-hidden' : ''}`} >
-								Available goodDeed
+							className={`btog button is-success is-pulled-right ${isOwner ? 'is-hidden' : ''}`} >
+							Available goodDeed
 						</button>
 						<div>
 							<span className="tag is-light">{detailData.location}</span>
 						</div>
 						<button className={`btog button is-warning is-pulled-right ${isOwner ? '' : 'is-hidden'}`} >
-										Edit Deed
+							Edit Deed
 									</button>
 						{/* screen title */}
 						<h1 className="title is-size-1">goodDeed Detail</h1>
@@ -93,7 +128,7 @@ export default function DeedDetail(props) {
 												<span>{detailData.location}</span>{" "}
 												<label className="label mt-2">Community</label>
 												<span className="tag is-warning is-normal">
-												{detailData.category}
+													{detailData.category}
 												</span>{" "}
 											</p>
 										</div>
@@ -144,12 +179,12 @@ export default function DeedDetail(props) {
 							</div>
 						</section>
 						{/* Assigned & Backup GoodDeed'r */}
-						<section className="section">
+						<section className={`section ${detailData.status === 'assigned' ? '' : 'is-hidden'}`}>
 							<div className="container">
 								<div className="columns">
 									<div className="column">
 										<h1 className="title mt-6">Assigned goodDeed'r</h1>
-										<MiniProfile />
+										<MiniProfile usersInfo={assignedUser} />
 									</div>
 									{/* <div className="column">
 										<h1 className="title mt-6">Backup goodDeed'r</h1>

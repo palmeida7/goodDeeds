@@ -60,7 +60,7 @@ const PrivateProfile = (props) => {
     };
 
     if (updated) {
-        return <Redirect to={"/public_profile"} />
+        return <Redirect to={`/public_profile/${window.sessionStorage.getItem('email')}`} />
     };
 
 

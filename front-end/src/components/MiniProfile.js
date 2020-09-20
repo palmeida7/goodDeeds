@@ -1,22 +1,22 @@
 import React from "react";
-export default function MiniProfile() {
+export default function MiniProfile({usersInfo}) {
     return (
-        <div class="container">
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-48x48">
+        <div className="container">
+            <article className="media">
+                <figure className="media-left">
+                    <p className="image is-48x48">
                         <img
-                            class="is-rounded"
-                            src="https://bulma.io/images/placeholders/128x128.png"
+                            className="is-rounded"
+                            src={usersInfo.picture}
                         />
                     </p>
                 </figure>
-                <div class="media-content">
-                    <div class="content">
+                <div className="media-content">
+                    <div className="content">
                         <p>
-                            <a href="../screens/Public_Profile.js"><strong>Testing DDD</strong> <br /></a>
-                            <small>@Eric-Yimmm</small>{" "}
-                            <span class="tag is-success is-normal">Rating</span>{" "}
+                            <a href="../screens/Public_Profile.js"><strong>{usersInfo.name}</strong> <br /></a>
+                            <small>@{usersInfo.username}</small>{" "}
+                            <span className="tag is-success is-normal">Rating</span>{" "}
                             <small>100%</small>
                             <br />
                         </p>

@@ -51,9 +51,9 @@ export default function AvailablDeeds() {
 						<button className="button is-dark is-pulled-right">
 							Completed goodDeeds
 						</button>
-						<Link to={'/upcoming'}><a className="button is-warning is-pulled-right mr-3">
+						<Link to={'/upcoming'} className="button is-warning is-pulled-right mr-3">
 							Upcoming goodDeeds
-						</a></Link>
+						</Link>
 						<div>
 							<span className="tag is-light mt-4">{window.sessionStorage.getItem("location")}</span>
 						</div>
@@ -65,15 +65,15 @@ export default function AvailablDeeds() {
 							{/* avatar */}
 							<div className="container">
 								<article className="media">
-									<figure className="media-left">
-										<p className="image is-48x48">
-											<img
-												className="is-rounded"
-												src={window.sessionStorage.getItem("picture")}
-												alt="user's avatar"
-											/>
-										</p>
-									</figure>
+								<Link to={`/public_profile/${window.sessionStorage.getItem('email')}`}>
+											<figure className="image is-48x48">
+												<img
+													className="is-rounded"
+													src={window.sessionStorage.getItem('picture')}
+													alt="owners profile"
+												/>
+											</figure>
+										</Link>
 									{/* user info */}
 									<div className="media-content">
 										<div className="content">
@@ -109,13 +109,15 @@ export default function AvailablDeeds() {
 								<div className="media">
 									<div className="media-left">
 										{/* image avatar */}
-										<figure className="image is-48x48">
-											<img
-												className="is-rounded"
-												src={deed.picture}
-												alt="Placeholder image"
-											/>
-										</figure>
+										<Link to={`/public_profile/${deed.email}`}>
+											<figure className="image is-48x48">
+												<img
+													className="is-rounded"
+													src={deed.picture}
+													alt="specific profile"
+												/>
+											</figure>
+										</Link>
 									</div>
 									{/* user info */}
 									<div className="media-content">

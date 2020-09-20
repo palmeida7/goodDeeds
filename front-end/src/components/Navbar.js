@@ -42,14 +42,11 @@ export default function Navbar() {
                             <Link to={"/private_profile"}
                                 className="navbar-item">Edit Profile
                             </Link>
-                            <Link to={"/public_profile"}
-                                className="navbar-item">Profile
-                            </Link>
                             <Link to={"/explore"}
-                                className="navbar-item">Deed
+                                className="navbar-item">Explore
                             </Link>
-                            <Link to={"/deed_assigned"}
-                            className="navbar-item">Upcoming Deeds
+                            <Link to={"/deeds_list"}
+                            className="navbar-item">My Deeds
                             </Link>
                             <Link to={"/create_deed"}
                                 className="navbar-item">Create Deed+
