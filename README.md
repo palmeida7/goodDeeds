@@ -12,6 +12,7 @@ goodDeeds is a virtual marketplace where volunteers and organizations, or indivi
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
 
 **Contributions:** Primary lead for constructing front-end logic and back-end routes. Implemented user chat hook.
+
 ### Mike Cadima: https://github.com/mikecadima
 ### portfolio: https://mikecadima.github.io/portfolio/
 **Primary team role:** Front-End markup and styling, concepting and Javascript Function writer, 
