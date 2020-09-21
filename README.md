@@ -11,19 +11,18 @@ goodDeeds is a virtual marketplace where volunteers and organizations, or indivi
 ### portfolio: https://tknyim.github.io/Portfolio/
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
 
-**Contributions:** Designed and implemented search query using Active.com API Event Search. Assisted with Style and Layout Design. Oversaw organization of all javascript files and implementations. Created Contact page. 
-
+**Contributions:** Primary lead for constructing front-end logic and back-end routes. Implemented user chat hook.
 ### Mike Cadima: https://github.com/mikecadima
 ### portfolio: https://mikecadima.github.io/portfolio/
 **Primary team role:** Front-End markup and styling, concepting and Javascript Function writer, 
 
-**Contributions:** Oversaw creation of Landing Page of project application. Implemented "slideable" menu and created div block with data from Weather API and a time counter function. 
+**Contributions:** Oversaw user login authentication with Auth0, and worked on front-end logic for rending responsiveness.
 
 ### PJ Almeida: https://github.com/palmeida7
 ### portfolio: https://palmeida7.github.io/portfolio/
 **Primary team role:** Database architect, Javascript Function writer, Concept and content developer
 
-**Contributions:** Created back-end routes and front-end logic to communicate and update database queries. Created CRUD (Create-Read-Update-Delete) functionality for application.
+**Contributions:** Created back-end routes and front-end logic to communicate and update database queries. Created CRUD (Create-Read-Update-Delete) functionality for application. Created technical documents and oversaw project progress board.
 
 ### Ivan Davis: https://github.com/techbyivan
 ### portfolio: https://techbyivandev.netlify.app/index.html
