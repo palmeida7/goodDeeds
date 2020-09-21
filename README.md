@@ -8,6 +8,7 @@ goodDeeds is a virtual marketplace where volunteers and organizations, or indivi
 
 ## The Team: This Project was created and completed remotely
 ### Eric Yim: https://github.com/tknyim
+### portfolio: https://tknyim.github.io/Portfolio/
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
 
 **Contributions:** Designed and implemented search query using Active.com API Event Search. Assisted with Style and Layout Design. Oversaw organization of all javascript files and implementations. Created Contact page. 
@@ -25,6 +26,7 @@ goodDeeds is a virtual marketplace where volunteers and organizations, or indivi
 **Contributions:** Created back-end routes and front-end logic to communicate and update database queries. Created CRUD (Create-Read-Update-Delete) functionality for application.
 
 ### Ivan Davis: https://github.com/techbyivan
+### portfolio: https://techbyivandev.netlify.app/index.html
 **Primary team role:** Lead UI/UX Designer; Front-End markup and styling, concepting and Javascript Function writer
 
 **Contributions:** Created visual process flow of application. Oversaw creative layout design of webpages. Created About page.
