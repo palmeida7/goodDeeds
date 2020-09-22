@@ -1,4 +1,4 @@
-# goodDeeds
+# goodDeeds by theCrew,inc.
 ![goodDeeds _ logo](https://user-images.githubusercontent.com/63179764/93724641-f4ccda00-fb76-11ea-96d0-06902c45c0e7.png)
 ## Overview: 
 goodDeeds is a virtual marketplace where volunteers and organizations, or individuals, may meet for the purpose of collaborating to accomplish acts of kindness. These acts may be as simple as spending time with members of the Senior Community, or just as grand such as small business consulations for Black-Owned businesses, or organzing to demonstrate advocacy for LGBTQ rights. The platform will promote sharing information through emails, meetings through a real time chat or organizing a group meet-up. No matter how small or grand the topic, goodDeeds provides a safe environment for collaborators, and those with needs, to link up and accomplish good deeds together. 
@@ -63,6 +63,7 @@ goodDeeds is a virtual marketplace where volunteers and organizations, or indivi
 - Amazon Web Services
 - Slack
 - Zoom 
+- Miro
 
 
 
@@ -286,5 +287,5 @@ export default function DeedsList() {
 
 
 ```
-## Demo of search feature
-[![Fit Pals demo](http://img.youtube.com/vi/W_FmXOzzQYU/0.jpg)](https://youtu.be/W_FmXOzzQYU)
+### Preview of the Site
+![goodDeeds _ preview](https://i.imgur.com/CDbEoT7.gif)
